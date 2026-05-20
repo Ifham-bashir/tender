@@ -22,14 +22,4 @@ Tender is a skincare web experience that listens before it speaks. It builds a r
 | **Pause Routine** | Your routine waits here. No guilt. No streaks. |
 | **"Not Sure" Escape** | Every step has an alternative or a skip option. |
 
-## File Structure
-tender/
-├── index.html          # Main application
-├── css/
-│   ├── reset.css       # Gentle CSS reset
-│   └── main.css        # All styles (anti-AI aesthetic)
-├── js/
-│   └── app.js          # All logic
-├── assets/
-│   └── favicon.svg     # Soft terracotta circle
-└── README.md           # This file
+## File Structure         
