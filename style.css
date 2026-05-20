@@ -3,7 +3,6 @@
    Complete Modern CSS
    ============================================ */
 
-/* CSS Variables */
 :root {
     --terracotta: #C67B5C;
     --terracotta-light: #D4957A;
@@ -43,7 +42,6 @@
     --section-padding: 120px;
 }
 
-/* Reset & Base */
 *, *::before, *::after {
     margin: 0;
     padding: 0;
@@ -84,7 +82,6 @@ button {
     background: none;
 }
 
-/* Container */
 .container {
     max-width: var(--max-width);
     margin: 0 auto;
@@ -186,7 +183,6 @@ button {
     width: 100%;
 }
 
-/* Mobile Toggle */
 .nav-toggle {
     display: flex;
     flex-direction: column;
@@ -222,7 +218,6 @@ button {
     transform: translateY(-6.5px) rotate(-45deg);
 }
 
-/* Mobile Menu */
 .mobile-menu {
     position: fixed;
     top: 0;
@@ -258,7 +253,7 @@ button {
 }
 
 /* ============================================
-   HERO SECTION
+   HERO
    ============================================ */
 .hero {
     position: relative;
@@ -294,14 +289,8 @@ button {
 }
 
 @keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(40px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .hero-badge {
@@ -364,7 +353,6 @@ button {
     }
 }
 
-/* Scroll Indicator */
 .hero-scroll {
     position: absolute;
     bottom: 32px;
@@ -577,12 +565,74 @@ button {
     line-height: 1.5;
 }
 
+/* Skin Problems */
+.skin-problems {
+    margin-top: 48px;
+    padding: 40px;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    display: none;
+    animation: fadeInUp 0.5s ease;
+}
+
+.skin-problems.active {
+    display: block;
+}
+
+.problems-question {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--charcoal);
+    margin-bottom: 8px;
+}
+
+.problems-hint {
+    font-size: 0.9375rem;
+    color: var(--charcoal-soft);
+    margin-bottom: 24px;
+}
+
+.problems-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 32px;
+}
+
+.problem-chip {
+    padding: 10px 20px;
+    background: var(--oatmeal);
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    cursor: pointer;
+    transition: var(--transition-fast);
+    border: 2px solid transparent;
+}
+
+.problem-chip:hover {
+    background: var(--oatmeal-dark);
+}
+
+.problem-chip.active {
+    background: var(--terracotta);
+    color: var(--white);
+    border-color: var(--terracotta-dark);
+}
+
+.problems-done {
+    width: 100%;
+}
+
 .mood-result {
     margin-top: 40px;
-    padding: 32px;
+    padding: 40px;
     background: var(--white);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-md);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
     display: none;
     animation: fadeInUp 0.5s ease;
 }
@@ -593,15 +643,15 @@ button {
 
 .mood-result h4 {
     font-family: var(--font-serif);
-    font-size: 1.5rem;
-    margin-bottom: 12px;
+    font-size: 1.75rem;
+    margin-bottom: 16px;
     color: var(--charcoal);
 }
 
-.mood-result p {
+.mood-result > p {
     color: var(--charcoal-soft);
     line-height: 1.7;
-    margin-bottom: 16px;
+    margin-bottom: 24px;
 }
 
 .mood-result .routine-preview {
@@ -620,7 +670,7 @@ button {
 }
 
 /* ============================================
-   GENTLE DAY TOGGLE
+   GENTLE DAY
    ============================================ */
 .section-gentle {
     padding: 0 0 var(--section-padding);
@@ -671,7 +721,6 @@ button {
     line-height: 1.5;
 }
 
-/* Toggle Switch */
 .toggle {
     position: relative;
     width: 56px;
@@ -713,144 +762,6 @@ button {
 
 .toggle input:checked + .toggle-slider::before {
     transform: translateX(24px);
-}
-
-/* ============================================
-   QUIZ SECTION
-   ============================================ */
-.section-quiz {
-    background: var(--oatmeal);
-}
-
-.quiz-container {
-    max-width: 720px;
-    background: var(--white);
-    border-radius: var(--radius-lg);
-    padding: 48px;
-    box-shadow: var(--shadow-lg);
-}
-
-@media (max-width: 640px) {
-    .quiz-container {
-        padding: 32px 24px;
-        border-radius: var(--radius-md);
-    }
-}
-
-.quiz-step {
-    display: none;
-    animation: fadeInUp 0.4s ease;
-}
-
-.quiz-step.active {
-    display: block;
-}
-
-.quiz-question {
-    font-family: var(--font-serif);
-    font-size: 1.5rem;
-    font-weight: 400;
-    color: var(--charcoal);
-    margin-bottom: 8px;
-}
-
-.quiz-hint {
-    font-size: 0.875rem;
-    color: var(--charcoal-soft);
-    margin-bottom: 24px;
-}
-
-.quiz-options {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 24px;
-}
-
-.quiz-option {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 16px 20px;
-    background: var(--oatmeal);
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    transition: var(--transition-fast);
-    border: 2px solid transparent;
-}
-
-.quiz-option:hover {
-    background: var(--oatmeal-dark);
-}
-
-.quiz-option:has(input:checked) {
-    border-color: var(--terracotta);
-    background: rgba(198, 123, 92, 0.05);
-}
-
-.quiz-option input {
-    width: 20px;
-    height: 20px;
-    accent-color: var(--terracotta);
-    flex-shrink: 0;
-    cursor: pointer;
-}
-
-.quiz-option span {
-    font-size: 0.9375rem;
-    color: var(--charcoal);
-    line-height: 1.5;
-}
-
-.quiz-option span em {
-    display: block;
-    font-size: 0.8125rem;
-    color: var(--charcoal-soft);
-    font-style: normal;
-    margin-top: 2px;
-}
-
-.quiz-skip {
-    font-size: 0.8125rem;
-    color: var(--charcoal-soft);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    cursor: pointer;
-    background: none;
-    border: none;
-    padding: 0;
-    transition: var(--transition-fast);
-}
-
-.quiz-skip:hover {
-    color: var(--terracotta);
-}
-
-.quiz-nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 40px;
-    padding-top: 24px;
-    border-top: 1px solid var(--oatmeal-dark);
-}
-
-.quiz-dots {
-    display: flex;
-    gap: 8px;
-}
-
-.quiz-dots span {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--oatmeal-dark);
-    transition: var(--transition-base);
-}
-
-.quiz-dots span.active {
-    background: var(--terracotta);
-    transform: scale(1.2);
 }
 
 /* ============================================
@@ -939,11 +850,37 @@ button {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 24px;
+    padding: 40px;
 }
 
 .upload-processing.active {
     display: flex;
+}
+
+.processing-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 280px;
+}
+
+.processing-steps .step {
+    font-size: 0.875rem;
+    color: var(--charcoal-soft);
+    padding: 8px 16px;
+    background: var(--oatmeal);
+    border-radius: var(--radius-sm);
+    transition: var(--transition-base);
+    opacity: 0.5;
+}
+
+.processing-steps .step.active {
+    opacity: 1;
+    background: rgba(198, 123, 92, 0.1);
+    color: var(--terracotta);
+    font-weight: 500;
 }
 
 .processing-spinner {
@@ -959,19 +896,7 @@ button {
     to { transform: rotate(360deg); }
 }
 
-.upload-processing p {
-    font-family: var(--font-serif);
-    font-size: 1.125rem;
-    color: var(--charcoal);
-    animation: pulse 2s ease infinite;
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 1; }
-}
-
-/* Analyze Results */
+/* Results */
 .analyze-results {
     background: var(--white);
     border-radius: var(--radius-lg);
@@ -1005,7 +930,7 @@ button {
     height: 100%;
     background: var(--terracotta);
     border-radius: var(--radius-full);
-    transition: width 1s ease;
+    transition: width 1.5s ease;
 }
 
 .result-text {
@@ -1033,15 +958,195 @@ button {
     line-height: 1.6;
 }
 
+/* Timeline */
+.timeline-section {
+    margin-top: 40px;
+    display: none;
+}
+
+.timeline-section.active {
+    display: block;
+}
+
+.timeline-title {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 20px;
+    color: var(--charcoal);
+}
+
+.timeline {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+}
+
+.timeline-item {
+    flex-shrink: 0;
+    width: 120px;
+    text-align: center;
+}
+
+.timeline-item img {
+    width: 100px;
+    height: 100px;
+    border-radius: var(--radius-md);
+    object-fit: cover;
+    margin: 0 auto 8px;
+    border: 2px solid var(--oatmeal-dark);
+}
+
+.timeline-item span {
+    font-size: 0.75rem;
+    color: var(--charcoal-soft);
+}
+
 .analyze-skip {
     text-align: center;
 }
 
 /* ============================================
-   INGREDIENTS SECTION
+   PRODUCTS SECTION
+   ============================================ */
+.section-products {
+    background: var(--oatmeal);
+}
+
+.products-filter {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    background: var(--white);
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--charcoal-soft);
+    cursor: pointer;
+    transition: var(--transition-fast);
+    border: 1.5px solid transparent;
+}
+
+.filter-btn:hover {
+    border-color: var(--terracotta-light);
+    color: var(--charcoal);
+}
+
+.filter-btn.active {
+    background: var(--terracotta);
+    color: var(--white);
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+@media (min-width: 640px) {
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .products-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.product-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-base);
+}
+
+.product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-xl);
+}
+
+.product-image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    background: var(--oatmeal);
+}
+
+.product-content {
+    padding: 24px;
+}
+
+.product-brand {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 4px;
+}
+
+.product-name {
+    font-family: var(--font-serif);
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    margin-bottom: 8px;
+}
+
+.product-price {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--charcoal);
+    margin-bottom: 12px;
+}
+
+.product-why {
+    font-size: 0.8125rem;
+    color: var(--charcoal-soft);
+    line-height: 1.5;
+    margin-bottom: 16px;
+}
+
+.product-ingredients {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.product-ingredient {
+    padding: 4px 10px;
+    background: var(--oatmeal);
+    border-radius: var(--radius-full);
+    font-size: 0.6875rem;
+    color: var(--charcoal-soft);
+}
+
+.product-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.product-actions .btn {
+    flex: 1;
+    padding: 10px 16px;
+    font-size: 0.8125rem;
+}
+
+/* ============================================
+   INGREDIENTS
    ============================================ */
 .section-ingredients {
-    background: var(--oatmeal);
+    background: var(--cream);
     overflow: hidden;
 }
 
@@ -1168,7 +1273,7 @@ button {
 }
 
 /* ============================================
-   SEASONAL SECTION
+   SEASONAL
    ============================================ */
 .section-seasonal {
     background: var(--cream);
@@ -1277,7 +1382,7 @@ button {
 }
 
 /* ============================================
-   PAUSE SECTION
+   PAUSE
    ============================================ */
 .section-pause {
     background: var(--oatmeal);
@@ -1348,7 +1453,7 @@ button {
 }
 
 /* ============================================
-   COMMUNITY SECTION
+   COMMUNITY
    ============================================ */
 .section-community {
     background: var(--cream);
@@ -1441,7 +1546,7 @@ button {
 }
 
 /* ============================================
-   TRUST SECTION
+   TRUST
    ============================================ */
 .section-trust {
     background: var(--oatmeal);
@@ -1622,15 +1727,13 @@ button {
     animation: modalIn 0.4s ease;
 }
 
+.modal-content.modal-large {
+    max-width: 720px;
+}
+
 @keyframes modalIn {
-    from {
-        opacity: 0;
-        transform: scale(0.95) translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-    }
+    from { opacity: 0; transform: scale(0.95) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 .modal-close {
