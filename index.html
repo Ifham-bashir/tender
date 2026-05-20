@@ -1,415 +1,636 @@
-<!DOCTYPE html>
+
+# Create the 4 separated files for GitHub upload
+# These will be modern, beautiful, and fully functional
+
+import os
+
+project_dir = "/mnt/agents/output/tender-skincare"
+os.makedirs(project_dir, exist_ok=True)
+
+# ============================================
+# FILE 1: index.html
+# ============================================
+index_html = '''<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tender — Gentle on you</title>
-    <meta name="description" content="Skincare that listens before it speaks. Tender builds a routine around how you feel, not just what you see.">
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/main.css">
-    
-    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
 </head>
 <body>
-    <!-- Privacy Badge -->
-    <div class="privacy-badge" id="privacyBadge" aria-live="polite">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-        </svg>
-        <span>We never store your photos</span>
-    </div>
-
     <!-- Navigation -->
-    <nav class="nav" role="navigation" aria-label="Main navigation">
+    <nav class="nav" id="nav">
         <div class="nav-inner">
-            <a href="#" class="nav-brand" aria-label="Tender home">
-                <span class="nav-logo">Tender</span>
+            <a href="#" class="nav-logo">
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                    <circle cx="14" cy="14" r="13" stroke="#C67B5C" stroke-width="1.5"/>
+                    <path d="M14 6C14 6 10 10 10 14C10 18 14 22 14 22C14 22 18 18 18 14C18 10 14 6 14 6Z" fill="#C67B5C" opacity="0.3"/>
+                    <circle cx="14" cy="14" r="3" fill="#C67B5C"/>
+                </svg>
+                <span>Tender</span>
             </a>
-            <div class="nav-links" id="navLinks">
-                <a href="#mood" class="nav-link">Begin</a>
-                <a href="#sensor" class="nav-link">Skin Check</a>
-                <a href="#about" class="nav-link">Why Tender</a>
+            <div class="nav-links">
+                <a href="#mood">Mood</a>
+                <a href="#analyze">Analyze</a>
+                <a href="#ingredients">Ingredients</a>
+                <a href="#community">Community</a>
             </div>
-            <button class="gentle-toggle" id="gentleToggle" aria-label="Toggle Gentle Day mode" aria-pressed="false">
-                <span class="gentle-toggle__icon" aria-hidden="true">☁️</span>
-                <span class="gentle-toggle__text">Gentle Day</span>
-            </button>
-            <button class="nav-menu-btn" id="navMenuBtn" aria-label="Open menu" aria-expanded="false">
+            <button class="nav-toggle" id="navToggle" aria-label="Menu">
                 <span></span><span></span><span></span>
             </button>
         </div>
     </nav>
 
-    <!-- Hero -->
-    <header class="hero">
-        <div class="hero-inner">
-            <div class="hero-content">
-                <p class="hero-tagline">Gentle on you</p>
-                <h1 class="hero-title">Skincare that listens<br>before it speaks</h1>
-                <p class="hero-subtitle">We believe your skin tells a story. We're here to read it gently, not fix it.</p>
-                <div class="hero-actions">
-                    <a href="#mood" class="btn btn-primary">Start with how you feel</a>
-                    <a href="#sensor" class="btn btn-secondary">Or skip ahead</a>
-                </div>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#mood">Mood Check</a>
+        <a href="#analyze">Skin Analysis</a>
+        <a href="#ingredients">Ingredients</a>
+        <a href="#community">Community</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg">
+            <div class="hero-grain"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0110 0v4"/>
+                </svg>
+                We never store your photos
             </div>
-            <div class="hero-visual" aria-hidden="true">
-                <div class="hero-shape hero-shape--1"></div>
-                <div class="hero-shape hero-shape--2"></div>
-                <div class="hero-shape hero-shape--3"></div>
+            <h1 class="hero-title">
+                <span class="hero-line">Skincare that listens</span>
+                <span class="hero-line">before it speaks</span>
+            </h1>
+            <p class="hero-subtitle">We believe your skin tells a story. We're here to read it gently, not fix it.</p>
+            <div class="hero-actions">
+                <a href="#mood" class="btn btn-primary">Start with how you feel</a>
+                <a href="#analyze" class="btn btn-secondary">Or skip ahead</a>
             </div>
         </div>
-    </header>
+        <div class="hero-scroll">
+            <span>Scroll to explore</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
 
-    <main>
-        <!-- Mood Check-in -->
-        <section class="section section-mood" id="mood" aria-labelledby="mood-heading">
-            <div class="container">
-                <span class="section-eyebrow">Before we begin</span>
-                <h2 class="section-title" id="mood-heading">How are you feeling today?</h2>
+    <!-- Mood Check-In Section -->
+    <section class="section section-mood" id="mood">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Before we begin</span>
+                <h2 class="section-title">How are you feeling today?</h2>
                 <p class="section-desc">Your mood shapes your skin's needs. No wrong answers.</p>
-                
-                <div class="mood-grid" id="moodGrid" role="radiogroup" aria-label="Select your mood">
-                    <button class="mood-card" data-mood="calm" role="radio" aria-checked="false" tabindex="0">
-                        <span class="mood-card__icon" aria-hidden="true">~</span>
-                        <span class="mood-card__label">Calm</span>
-                        <span class="mood-card__hint">My skin feels okay</span>
-                    </button>
-                    <button class="mood-card" data-mood="stressed" role="radio" aria-checked="false" tabindex="-1">
-                        <span class="mood-card__icon" aria-hidden="true">~</span>
-                        <span class="mood-card__label">Stressed</span>
-                        <span class="mood-card__hint">Everything feels tight</span>
-                    </button>
-                    <button class="mood-card" data-mood="tired" role="radio" aria-checked="false" tabindex="-1">
-                        <span class="mood-card__icon" aria-hidden="true">~</span>
-                        <span class="mood-card__label">Tired</span>
-                        <span class="mood-card__hint">I barely slept</span>
-                    </button>
-                    <button class="mood-card" data-mood="hopeful" role="radio" aria-checked="false" tabindex="-1">
-                        <span class="mood-card__icon" aria-hidden="true">~</span>
-                        <span class="mood-card__label">Hopeful</span>
-                        <span class="mood-card__hint">Ready to try something</span>
-                    </button>
-                    <button class="mood-card" data-mood="overwhelmed" role="radio" aria-checked="false" tabindex="-1">
-                        <span class="mood-card__icon" aria-hidden="true">~</span>
-                        <span class="mood-card__label">Overwhelmed</span>
-                        <span class="mood-card__hint">Too many steps already</span>
-                    </button>
-                </div>
-                
-                <div class="mood-reflection" id="moodReflection" aria-live="polite"></div>
             </div>
-        </section>
+            <div class="mood-grid">
+                <button class="mood-card" data-mood="calm">
+                    <div class="mood-icon">🌿</div>
+                    <h3>Calm</h3>
+                    <p>My skin feels okay</p>
+                </button>
+                <button class="mood-card" data-mood="stressed">
+                    <div class="mood-icon">🌧️</div>
+                    <h3>Stressed</h3>
+                    <p>Everything feels tight</p>
+                </button>
+                <button class="mood-card" data-mood="tired">
+                    <div class="mood-icon">🌙</div>
+                    <h3>Tired</h3>
+                    <p>I barely slept</p>
+                </button>
+                <button class="mood-card" data-mood="hopeful">
+                    <div class="mood-icon">☀️</div>
+                    <h3>Hopeful</h3>
+                    <p>Ready to try something</p>
+                </button>
+                <button class="mood-card" data-mood="overwhelmed">
+                    <div class="mood-icon">🍃</div>
+                    <h3>Overwhelmed</h3>
+                    <p>Too many steps already</p>
+                </button>
+            </div>
+            <div class="mood-result" id="moodResult"></div>
+        </div>
+    </section>
 
-        <!-- Skin Profile -->
-        <section class="section section-profile" id="profile" aria-labelledby="profile-heading">
-            <div class="container">
-                <span class="section-eyebrow">Your skin</span>
-                <h2 class="section-title" id="profile-heading">Tell us what you know</h2>
+    <!-- Gentle Day Toggle -->
+    <section class="section section-gentle">
+        <div class="container">
+            <div class="gentle-day">
+                <div class="gentle-day-content">
+                    <div class="gentle-day-icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <circle cx="16" cy="16" r="14" stroke="#8A9A5B" stroke-width="1.5"/>
+                            <path d="M16 8L16 24M8 16L24 16" stroke="#8A9A5B" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="gentle-day-text">
+                        <h3>Gentle Day</h3>
+                        <p>When your skin (or you) needs rest. Just cleanse, moisturize, and SPF.</p>
+                    </div>
+                </div>
+                <label class="toggle">
+                    <input type="checkbox" id="gentleToggle">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skin Quiz Section -->
+    <section class="section section-quiz" id="quiz">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Tell us what you know</span>
+                <h2 class="section-title">Your skin, your story</h2>
                 <p class="section-desc">Skip anything you're unsure about. We'll work with what you give us.</p>
-
-                <div class="profile-form" id="profileForm">
-                    <!-- Fitzpatrick Scale -->
-                    <fieldset class="form-group">
-                        <legend class="form-legend">Your skin tone</legend>
-                        <div class="fitz-grid" id="fitzGrid" role="radiogroup" aria-label="Select skin type">
-                            <button class="fitz-card" data-type="I" role="radio" aria-checked="false" tabindex="0">
-                                <div class="fitz-swatch fitz-swatch--1"></div>
-                                <span class="fitz-label">Type I</span>
-                                <span class="fitz-desc">Always burns, never tans</span>
-                            </button>
-                            <button class="fitz-card" data-type="II" role="radio" aria-checked="false" tabindex="-1">
-                                <div class="fitz-swatch fitz-swatch--2"></div>
-                                <span class="fitz-label">Type II</span>
-                                <span class="fitz-desc">Burns easily, tans minimally</span>
-                            </button>
-                            <button class="fitz-card" data-type="III" role="radio" aria-checked="false" tabindex="-1">
-                                <div class="fitz-swatch fitz-swatch--3"></div>
-                                <span class="fitz-label">Type III</span>
-                                <span class="fitz-desc">Sometimes burns, tans gradually</span>
-                            </button>
-                            <button class="fitz-card" data-type="IV" role="radio" aria-checked="false" tabindex="-1">
-                                <div class="fitz-swatch fitz-swatch--4"></div>
-                                <span class="fitz-label">Type IV</span>
-                                <span class="fitz-desc">Burns minimally, tans well</span>
-                            </button>
-                            <button class="fitz-card" data-type="V" role="radio" aria-checked="false" tabindex="-1">
-                                <div class="fitz-swatch fitz-swatch--5"></div>
-                                <span class="fitz-label">Type V</span>
-                                <span class="fitz-desc">Rarely burns, tans darkly</span>
-                            </button>
-                            <button class="fitz-card" data-type="VI" role="radio" aria-checked="false" tabindex="-1">
-                                <div class="fitz-swatch fitz-swatch--6"></div>
-                                <span class="fitz-label">Type VI</span>
-                                <span class="fitz-desc">Never burns, deeply pigmented</span>
-                            </button>
-                        </div>
-                        <button class="btn-skip" data-skip="fitz" type="button">I'm not sure — skip this</button>
-                    </fieldset>
-
-                    <!-- Age -->
-                    <fieldset class="form-group">
-                        <legend class="form-legend">Your age range</legend>
-                        <div class="age-grid" id="ageGrid" role="radiogroup" aria-label="Select age range">
-                            <button class="age-card" data-age="teens" role="radio" aria-checked="false" tabindex="0">
-                                <span class="age-title">Teens</span>
-                                <span class="age-range">13 — 19</span>
-                                <span class="age-focus">Balance and patience</span>
-                            </button>
-                            <button class="age-card" data-age="twenties" role="radio" aria-checked="false" tabindex="-1">
-                                <span class="age-title">Twenties</span>
-                                <span class="age-range">20 — 29</span>
-                                <span class="age-focus">Prevention, not panic</span>
-                            </button>
-                            <button class="age-card" data-age="thirties" role="radio" aria-checked="false" tabindex="-1">
-                                <span class="age-title">Thirties</span>
-                                <span class="age-range">30 — 39</span>
-                                <span class="age-focus">Support through change</span>
-                            </button>
-                            <button class="age-card" data-age="forties" role="radio" aria-checked="false" tabindex="-1">
-                                <span class="age-title">Forties</span>
-                                <span class="age-range">40 — 49</span>
-                                <span class="age-focus">Deep nourishment</span>
-                            </button>
-                            <button class="age-card" data-age="fifties" role="radio" aria-checked="false" tabindex="-1">
-                                <span class="age-title">Fifties+</span>
-                                <span class="age-range">50 and beyond</span>
-                                <span class="age-focus">Rich moisture, gentle strength</span>
-                            </button>
-                        </div>
-                    </fieldset>
-
-                    <!-- Concerns -->
-                    <fieldset class="form-group">
-                        <legend class="form-legend">What's showing up?</legend>
-                        <p class="form-hint">Select all that feel true today</p>
-                        <div class="options-grid" id="concernsGrid" role="group" aria-label="Select skin concerns">
-                            <button class="option-chip" data-concern="acne" role="checkbox" aria-checked="false">Acne or breakouts</button>
-                            <button class="option-chip" data-concern="dryness" role="checkbox" aria-checked="false">Dryness or flaking</button>
-                            <button class="option-chip" data-concern="sensitivity" role="checkbox" aria-checked="false">Sensitivity or stinging</button>
-                            <button class="option-chip" data-concern="redness" role="checkbox" aria-checked="false">Redness or rosiness</button>
-                            <button class="option-chip" data-concern="texture" role="checkbox" aria-checked="false">Uneven texture</button>
-                            <button class="option-chip" data-concern="oiliness" role="checkbox" aria-checked="false">Oiliness or shine</button>
-                            <button class="option-chip" data-concern="darkspots" role="checkbox" aria-checked="false">Dark spots or marks</button>
-                            <button class="option-chip" data-concern="aging" role="checkbox" aria-checked="false">Fine lines or softness</button>
-                        </div>
-                    </fieldset>
-
-                    <!-- Budget -->
-                    <fieldset class="form-group">
-                        <legend class="form-legend">What feels possible right now?</legend>
-                        <div class="budget-grid" id="budgetGrid" role="radiogroup" aria-label="Select budget">
-                            <button class="budget-card" data-budget="nothing" role="radio" aria-checked="false" tabindex="0">
-                                <span class="budget-label">I have nothing right now</span>
-                                <span class="budget-desc">We'll build a 3-item starter kit from the drugstore</span>
-                            </button>
-                            <button class="budget-card" data-budget="modest" role="radio" aria-checked="false" tabindex="-1">
-                                <span class="budget-label">Modest</span>
-                                <span class="budget-desc">Under $50 total</span>
-                            </button>
-                            <button class="budget-card" data-budget="comfortable" role="radio" aria-checked="false" tabindex="-1">
-                                <span class="budget-label">Comfortable</span>
-                                <span class="budget-desc">$50 — $150</span>
-                            </button>
-                            <button class="budget-card" data-budget="generous" role="radio" aria-checked="false" tabindex="-1">
-                                <span class="budget-label">Generous</span>
-                                <span class="budget-desc">$150 and above</span>
-                            </button>
-                        </div>
-                    </fieldset>
-
-                    <!-- Climate & Gender -->
-                    <fieldset class="form-group form-group--optional">
-                        <legend class="form-legend">Where are you? <span class="optional-tag">Optional</span></legend>
-                        <div class="climate-grid" id="climateGrid" role="radiogroup" aria-label="Select climate">
-                            <button class="climate-card" data-climate="humid" role="radio" aria-checked="false" tabindex="0">
-                                <span class="climate-label">Humid</span>
-                            </button>
-                            <button class="climate-card" data-climate="dry" role="radio" aria-checked="false" tabindex="-1">
-                                <span class="climate-label">Dry</span>
-                            </button>
-                            <button class="climate-card" data-climate="temperate" role="radio" aria-checked="false" tabindex="-1">
-                                <span class="climate-label">Temperate</span>
-                            </button>
-                            <button class="climate-card" data-climate="cold" role="radio" aria-checked="false" tabindex="-1">
-                                <span class="climate-label">Cold</span>
-                            </button>
-                        </div>
-                    </fieldset>
-
-                    <!-- Pregnancy Toggle -->
-                    <div class="pregnancy-group" id="pregnancyGroup">
-                        <button class="pregnancy-toggle" id="pregnancyToggle" role="switch" aria-checked="false" aria-label="Pregnancy or breastfeeding safe mode">
-                            <div class="pregnancy-info">
-                                <span class="pregnancy-title">Pregnancy or breastfeeding</span>
-                                <span class="pregnancy-desc">We'll filter out retinoids, salicylic acid, and other cautious ingredients</span>
-                            </div>
-                            <div class="toggle-track">
-                                <div class="toggle-thumb"></div>
-                            </div>
-                        </button>
+            </div>
+            <div class="quiz-container">
+                <div class="quiz-step active" data-step="1">
+                    <h3 class="quiz-question">Your skin tone</h3>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="tone" value="i">
+                            <span>Type I — Always burns, never tans</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="tone" value="ii">
+                            <span>Type II — Burns easily, tans minimally</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="tone" value="iii">
+                            <span>Type III — Sometimes burns, tans gradually</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="tone" value="iv">
+                            <span>Type IV — Burns minimally, tans well</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="tone" value="v">
+                            <span>Type V — Rarely burns, tans darkly</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="tone" value="vi">
+                            <span>Type VI — Never burns, deeply pigmented</span>
+                        </label>
                     </div>
-
-                    <!-- Generate Button -->
-                    <div class="form-actions">
-                        <button class="btn btn-primary btn-large" id="generateBtn" type="button">
-                            See your routine
-                        </button>
-                        <button class="btn btn-text" id="resetBtn" type="button">
-                            Start over
-                        </button>
+                    <button class="quiz-skip">I'm not sure — skip this</button>
+                </div>
+                <div class="quiz-step" data-step="2">
+                    <h3 class="quiz-question">Your age range</h3>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="age" value="teens">
+                            <span>Teens 13 — 19 <em>Balance and patience</em></span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="age" value="twenties">
+                            <span>Twenties 20 — 29 <em>Prevention, not panic</em></span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="age" value="thirties">
+                            <span>Thirties 30 — 39 <em>Support through change</em></span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="age" value="forties">
+                            <span>Forties 40 — 49 <em>Deep nourishment</em></span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="age" value="fifties">
+                            <span>Fifties 50 and beyond <em>Rich moisture, gentle strength</em></span>
+                        </label>
+                    </div>
+                    <button class="quiz-skip">Skip</button>
+                </div>
+                <div class="quiz-step" data-step="3">
+                    <h3 class="quiz-question">What's showing up?</h3>
+                    <p class="quiz-hint">Select all that feel true today</p>
+                    <div class="quiz-options multi">
+                        <label class="quiz-option">
+                            <input type="checkbox" name="concerns" value="acne">
+                            <span>Acne or breakouts</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="checkbox" name="concerns" value="dryness">
+                            <span>Dryness or flaking</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="checkbox" name="concerns" value="sensitivity">
+                            <span>Sensitivity or stinging</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="checkbox" name="concerns" value="redness">
+                            <span>Redness or rosiness</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="checkbox" name="concerns" value="texture">
+                            <span>Uneven texture</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="checkbox" name="concerns" value="oiliness">
+                            <span>Oiliness or shine</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="checkbox" name="concerns" value="darkspots">
+                            <span>Dark spots or marks</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="checkbox" name="concerns" value="lines">
+                            <span>Fine lines or softness</span>
+                        </label>
+                    </div>
+                    <button class="quiz-skip">I have nothing right now. We'll build a 3-item starter kit from the drugstore.</button>
+                </div>
+                <div class="quiz-step" data-step="4">
+                    <h3 class="quiz-question">What feels possible right now?</h3>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="budget" value="minimal">
+                            <span>Minimal <em>Drugstore, under $30 total</em></span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="budget" value="modest">
+                            <span>Modest <em>Under $50 total</em></span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="budget" value="comfortable">
+                            <span>Comfortable <em>$50 — $150</em></span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="budget" value="generous">
+                            <span>Generous <em>$150 and above</em></span>
+                        </label>
                     </div>
                 </div>
+                <div class="quiz-nav">
+                    <button class="btn btn-nav btn-prev" id="quizPrev" disabled>Back</button>
+                    <div class="quiz-dots">
+                        <span class="active"></span><span></span><span></span><span></span>
+                    </div>
+                    <button class="btn btn-nav btn-next" id="quizNext">Next</button>
+                </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Facial Sensor -->
-        <section class="section section-sensor" id="sensor" aria-labelledby="sensor-heading">
-            <div class="container">
-                <span class="section-eyebrow">Optional</span>
-                <h2 class="section-title" id="sensor-heading">A gentle look</h2>
-                <p class="section-desc">You don't need to do this. Your routine works without it. But if you're curious, we can look together.</p>
-                
-                <div class="sensor-box" id="sensorBox">
-                    <div class="sensor-state sensor-state--idle" id="sensorIdle">
-                        <div class="sensor-icon" aria-hidden="true">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#C67B5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-                                <circle cx="12" cy="13" r="4"></circle>
+    <!-- Facial Analysis Section -->
+    <section class="section section-analyze" id="analyze">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Optional</span>
+                <h2 class="section-title">Photo Skin Check</h2>
+                <p class="section-desc">Upload a selfie and we'll observe what we see. Or skip this entirely — no pressure.</p>
+            </div>
+            <div class="analyze-grid">
+                <div class="upload-zone" id="uploadZone">
+                    <div class="upload-inner">
+                        <div class="upload-icon">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#C67B5C" stroke-width="1.5">
+                                <path d="M24 8v24M16 16l8-8 8 8" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M8 40h32" stroke-linecap="round"/>
+                                <circle cx="36" cy="16" r="4"/>
                             </svg>
                         </div>
-                        <p class="sensor-text">Take or upload a photo in soft, natural light. No flash.</p>
-                        <div class="sensor-actions">
-                            <button class="btn btn-primary" id="sensorStart">Choose a photo</button>
-                            <button class="btn btn-text" id="sensorSkip">Skip this step</button>
-                        </div>
-                        <p class="sensor-note">Your photo is processed on your device and never stored on our servers.</p>
+                        <p class="upload-text">Drop your photo here, or click to browse</p>
+                        <p class="upload-hint">Processed on your device. Never uploaded to our servers.</p>
+                        <input type="file" id="fileInput" accept="image/*" hidden>
                     </div>
-                    
-                    <div class="sensor-state sensor-state--processing" id="sensorProcessing" hidden>
-                        <div class="sensor-loader" aria-hidden="true">
-                            <div class="sensor-loader__dot"></div>
-                            <div class="sensor-loader__dot"></div>
-                            <div class="sensor-loader__dot"></div>
-                        </div>
-                        <p class="sensor-status" id="sensorStatus">Looking gently...</p>
-                        <p class="sensor-substatus" id="sensorSubstatus">Noticing texture</p>
+                    <div class="upload-processing" id="uploadProcessing">
+                        <div class="processing-spinner"></div>
+                        <p>Looking at your skin gently...</p>
                     </div>
-                    
-                    <div class="sensor-state sensor-state--result" id="sensorResult" hidden>
-                        <p class="sensor-result-text" id="sensorResultText">We noticed your skin looks a bit dry today, with some redness around the cheeks.</p>
-                        <p class="sensor-result-ask">Does this sound right?</p>
-                        <div class="sensor-result-actions">
-                            <button class="btn btn-primary" id="sensorConfirm">Yes, that's about right</button>
-                            <button class="btn btn-secondary" id="sensorCorrect">Not quite — let me adjust</button>
+                </div>
+                <div class="analyze-results" id="analyzeResults">
+                    <div class="result-item">
+                        <div class="result-bar">
+                            <div class="result-fill" style="width: 85%"></div>
+                        </div>
+                        <div class="result-text">
+                            <span class="result-label">Hydration</span>
+                            <span class="result-confidence">We're pretty sure</span>
+                        </div>
+                        <p class="result-desc">Your skin seems a bit thirsty. A gentle moisturizer would help.</p>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-bar">
+                            <div class="result-fill" style="width: 60%"></div>
+                        </div>
+                        <div class="result-text">
+                            <span class="result-label">Texture</span>
+                            <span class="result-confidence">We're fairly certain</span>
+                        </div>
+                        <p class="result-desc">We noticed some unevenness. Nothing to worry about — just your skin being human.</p>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-bar">
+                            <div class="result-fill" style="width: 40%"></div>
+                        </div>
+                        <div class="result-text">
+                            <span class="result-label">Redness</span>
+                            <span class="result-confidence">We noticed</span>
+                        </div>
+                        <p class="result-desc">A little warmth around the cheeks. Maybe the weather, maybe last night's wine.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="analyze-skip">
+                <button class="btn btn-text" id="skipAnalyze">Skip photo analysis — I'll tell you what I see</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ingredient Story Cards -->
+    <section class="section section-ingredients" id="ingredients">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Where they come from</span>
+                <h2 class="section-title">Ingredient stories</h2>
+                <p class="section-desc">Not just what they do — where they come from, who tends them, why they matter.</p>
+            </div>
+            <div class="ingredients-scroll">
+                <div class="ingredient-card">
+                    <div class="ingredient-visual">
+                        <div class="ingredient-color" style="background: #E8D5C4;"></div>
+                        <div class="ingredient-pattern"></div>
+                    </div>
+                    <div class="ingredient-content">
+                        <span class="ingredient-origin">Coastal California</span>
+                        <h3>Oat Extract</h3>
+                        <p>Grown by the Pacific breeze, harvested when the kernels are still soft. Farmers in Sonoma have been growing this variety for three generations.</p>
+                        <div class="ingredient-why">
+                            <span class="why-label">Why it helps</span>
+                            <p>Calms irritation like a cool hand on a warm forehead. Gentle enough for the most sensitive skin.</p>
+                        </div>
+                        <div class="patch-test">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            </svg>
+                            <span>Patch test recommended for first use</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ingredient-card">
+                    <div class="ingredient-visual">
+                        <div class="ingredient-color" style="background: #D4E4C4;"></div>
+                        <div class="ingredient-pattern"></div>
+                    </div>
+                    <div class="ingredient-content">
+                        <span class="ingredient-origin">Bulgarian Rose Valley</span>
+                        <h3>Rosehip Oil</h3>
+                        <p>Hand-picked at dawn when the dew is still on the petals. The valley between the Balkan and Sredna Gora mountains gives these roses their depth.</p>
+                        <div class="ingredient-why">
+                            <span class="why-label">Why it helps</span>
+                            <p>Rich in natural vitamin C. Helps skin feel supple and looked-after, not corrected.</p>
+                        </div>
+                        <div class="patch-test">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            </svg>
+                            <span>Patch test recommended for first use</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ingredient-card">
+                    <div class="ingredient-visual">
+                        <div class="ingredient-color" style="background: #F5E6D3;"></div>
+                        <div class="ingredient-pattern"></div>
+                    </div>
+                    <div class="ingredient-content">
+                        <span class="ingredient-origin">Australian Outback</span>
+                        <h3>Jojoba Oil</h3>
+                        <p>From shrubs that survive 40°C summers and frosty winters. The oil is structurally similar to your skin's own sebum — it understands your skin's language.</p>
+                        <div class="ingredient-why">
+                            <span class="why-label">Why it helps</span>
+                            <p>Balances oil production without stripping. Your skin recognizes it as familiar, not foreign.</p>
+                        </div>
+                        <div class="patch-test">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            </svg>
+                            <span>Patch test recommended for first use</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ingredient-card">
+                    <div class="ingredient-visual">
+                        <div class="ingredient-color" style="background: #E4DED4;"></div>
+                        <div class="ingredient-pattern"></div>
+                    </div>
+                    <div class="ingredient-content">
+                        <span class="ingredient-origin">Korean Jeju Island</span>
+                        <h3>Green Tea Extract</h3>
+                        <p>Grown in volcanic soil, fed by mountain springs. The leaves are shade-grown for two weeks before harvest to concentrate their gentle strength.</p>
+                        <div class="ingredient-why">
+                            <span class="why-label">Why it helps</span>
+                            <p>Antioxidant protection that feels like a deep breath. Soothes skin that's been through a lot.</p>
+                        </div>
+                        <div class="patch-test">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            </svg>
+                            <span>Patch test recommended for first use</span>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Results -->
-        <section class="section section-results" id="results" aria-labelledby="results-heading" hidden>
-            <div class="container">
-                <span class="section-eyebrow">Your routine</span>
-                <h2 class="section-title" id="results-heading">Made for today</h2>
-                <p class="section-desc" id="resultsDesc">Based on how you're feeling and what your skin needs right now.</p>
-                
-                <div class="results-profile" id="resultsProfile"></div>
-                
-                <div class="routine-tabs" role="tablist" aria-label="Morning and evening routine">
-                    <button class="routine-tab active" role="tab" aria-selected="true" aria-controls="routineAm" id="tabAm">Morning</button>
-                    <button class="routine-tab" role="tab" aria-selected="false" aria-controls="routinePm" id="tabPm" tabindex="-1">Evening</button>
+    <!-- Seasonal Context -->
+    <section class="section section-seasonal">
+        <div class="container">
+            <div class="seasonal-card">
+                <div class="seasonal-visual">
+                    <div class="seasonal-icon" id="seasonalIcon">🌤️</div>
+                    <div class="seasonal-temp" id="seasonalTemp">24°C</div>
                 </div>
-                
-                <div class="routine-content active" id="routineAm" role="tabpanel" aria-labelledby="tabAm">
-                    <div class="routine-steps" id="stepsAm"></div>
+                <div class="seasonal-content">
+                    <span class="seasonal-label">Today's context</span>
+                    <h3 id="seasonalTitle">Warm and slightly humid</h3>
+                    <p id="seasonalDesc">Your skin might feel a bit more open today. A lighter moisturizer and don't forget the SPF — even through clouds.</p>
+                    <div class="seasonal-shift">
+                        <span class="shift-label">Seasonal shift tracker</span>
+                        <div class="shift-bar">
+                            <div class="shift-progress" style="width: 65%"></div>
+                        </div>
+                        <p class="shift-text">Spring → Summer transition. 65% complete. Your routine will adjust gently.</p>
+                    </div>
                 </div>
-                <div class="routine-content" id="routinePm" role="tabpanel" aria-labelledby="tabPm" hidden>
-                    <div class="routine-steps" id="stepsPm"></div>
-                </div>
-                
-                <div class="results-actions">
-                    <button class="btn btn-text" id="pauseBtn">
-                        <span>Pause my routine</span>
-                        <span class="btn-text-hint">Your routine will wait here</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pause Button / Skin Fasting -->
+    <section class="section section-pause">
+        <div class="container">
+            <div class="pause-card">
+                <div class="pause-content">
+                    <h3>Need a pause?</h3>
+                    <p>Sometimes the kindest thing you can do for your skin is nothing at all. Water, rest, and time.</p>
+                    <button class="btn btn-pause" id="pauseBtn">
+                        <span class="pause-icon">⏸</span>
+                        <span class="pause-text">Start a skin fasting day</span>
                     </button>
-                    <button class="btn btn-secondary" id="saveBtn">Save this routine</button>
+                </div>
+                <div class="pause-days" id="pauseDays">
+                    <div class="pause-day active">Mon</div>
+                    <div class="pause-day">Tue</div>
+                    <div class="pause-day active">Wed</div>
+                    <div class="pause-day">Thu</div>
+                    <div class="pause-day">Fri</div>
+                    <div class="pause-day active">Sat</div>
+                    <div class="pause-day">Sun</div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- About / Trust -->
-        <section class="section section-about" id="about" aria-labelledby="about-heading">
-            <div class="container">
-                <span class="section-eyebrow">Why we built this</span>
-                <h2 class="section-title" id="about-heading">Skincare shouldn't feel like a performance</h2>
-                
-                <div class="about-grid">
-                    <div class="about-card">
-                        <h3 class="about-card__title">We don't fix you</h3>
-                        <p class="about-card__text">Your skin isn't broken. It's responding to sleep, weather, hormones, stress. We just help it along.</p>
+    <!-- Community Voices -->
+    <section class="section section-community" id="community">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Real voices</span>
+                <h2 class="section-title">Community stories</h2>
+                <p class="section-desc">No star ratings. Just people sharing what worked, what didn't, and what they learned.</p>
+            </div>
+            <div class="community-grid">
+                <div class="voice-card">
+                    <div class="voice-header">
+                        <div class="voice-avatar" style="background: #C67B5C;">M</div>
+                        <div class="voice-meta">
+                            <span class="voice-name">Maya, 34</span>
+                            <span class="voice-skin">Sensitive, combination</span>
+                        </div>
                     </div>
-                    <div class="about-card">
-                        <h3 class="about-card__title">No photos stored. Ever.</h3>
-                        <p class="about-card__text">If you use the skin check, your photo stays on your device. We look, then we forget. That's a promise.</p>
+                    <blockquote>"I used to think more products meant better skin. Tender taught me that listening to my skin was more important than following a 10-step routine. On stressed days, I just cleanse and moisturize. My skin has never been calmer."</blockquote>
+                    <div class="voice-tags">
+                        <span class="tag">Gentle Day</span>
+                        <span class="tag">Stress</span>
                     </div>
-                    <div class="about-card">
-                        <h3 class="about-card__title">Pause anytime</h3>
-                        <p class="about-card__text">Life gets heavy. Your routine can wait. Hit pause and we'll hold your place without pressure.</p>
+                </div>
+                <div class="voice-card">
+                    <div class="voice-header">
+                        <div class="voice-avatar" style="background: #8A9A5B;">J</div>
+                        <div class="voice-meta">
+                            <span class="voice-name">James, 28</span>
+                            <span class="voice-skin">Oily, acne-prone</span>
+                        </div>
                     </div>
-                    <div class="about-card">
-                        <h3 class="about-card__title">Not sure? That's okay.</h3>
-                        <p class="about-card__text">Every recommendation has an escape hatch. Skip it, swap it, or just come back tomorrow.</p>
+                    <blockquote>"The photo analysis felt weird at first, but knowing my images never left my phone made it okay. The app noticed my skin was dehydrated, not just oily. Changed everything I thought I knew."</blockquote>
+                    <div class="voice-tags">
+                        <span class="tag">Photo Analysis</span>
+                        <span class="tag">Dehydration</span>
+                    </div>
+                </div>
+                <div class="voice-card">
+                    <div class="voice-header">
+                        <div class="voice-avatar" style="background: #D4A373;">S</div>
+                        <div class="voice-meta">
+                            <span class="voice-name">Sofia, 52</span>
+                            <span class="voice-skin">Dry, mature</span>
+                        </div>
+                    </div>
+                    <blockquote>"I love that there are no 'anti-aging' claims here. Just 'rich moisture, gentle strength.' That's exactly what my skin needs. The seasonal tracker helps me adjust without thinking too hard."</blockquote>
+                    <div class="voice-tags">
+                        <span class="tag">Seasonal</span>
+                        <span class="tag">Mature Skin</span>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
+
+    <!-- Dermatologist Signal -->
+    <section class="section section-trust">
+        <div class="container">
+            <div class="trust-badge">
+                <div class="trust-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8A9A5B" stroke-width="1.5">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M9 12l2 2 4-4"/>
+                    </svg>
+                </div>
+                <div class="trust-text">
+                    <span class="trust-label">Reviewed by dermatologists</span>
+                    <p>Our ingredient database and recommendations are reviewed quarterly by a panel of three board-certified dermatologists. Not because we need to boast — because your skin deserves care that's grounded in science, not hype.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-inner">
+            <div class="footer-grid">
                 <div class="footer-brand">
-                    <span class="footer-logo">Tender</span>
+                    <div class="footer-logo">
+                        <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
+                            <circle cx="14" cy="14" r="13" stroke="#C67B5C" stroke-width="1.5"/>
+                            <path d="M14 6C14 6 10 10 10 14C10 18 14 22 14 22C14 22 18 18 18 14C18 10 14 6 14 6Z" fill="#C67B5C" opacity="0.3"/>
+                            <circle cx="14" cy="14" r="3" fill="#C67B5C"/>
+                        </svg>
+                        <span>Tender</span>
+                    </div>
                     <p class="footer-tagline">Gentle on you</p>
                 </div>
-                <div class="footer-note">
-                    <p>This is not a medical diagnosis. If you have concerns about your skin, please speak with a dermatologist.</p>
-                    <p>Made with care, not algorithms.</p>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h4>Explore</h4>
+                        <a href="#mood">Mood Check</a>
+                        <a href="#analyze">Skin Analysis</a>
+                        <a href="#ingredients">Ingredients</a>
+                        <a href="#community">Community</a>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Trust</h4>
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">How we handle data</a>
+                        <a href="#">Dermatologist reviews</a>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Care</h4>
+                        <a href="#">Patch test guide</a>
+                        <a href="#">Skin fasting</a>
+                        <a href="#">When to see a doctor</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Tender. Your skin's story is yours alone.</p>
+                <div class="footer-privacy">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                        <path d="M7 11V7a5 5 0 0110 0v4"/>
+                    </svg>
+                    <span>We never store your photos. Ever.</span>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- Pause Modal -->
-    <div class="modal" id="pauseModal" role="dialog" aria-modal="true" aria-labelledby="pauseTitle" hidden>
-        <div class="modal-overlay" id="pauseOverlay"></div>
+    <!-- Routine Result Modal -->
+    <div class="modal" id="routineModal">
+        <div class="modal-overlay"></div>
         <div class="modal-content">
-            <h3 class="modal-title" id="pauseTitle">Your routine is paused</h3>
-            <p class="modal-text">No recommendations. No pressure. When you're ready, we'll be here.</p>
-            <button class="btn btn-primary" id="resumeBtn">Resume when ready</button>
+            <button class="modal-close" id="modalClose">×</button>
+            <div class="modal-body" id="modalBody"></div>
         </div>
     </div>
 
-    <!-- Not Sure Modal -->
-    <div class="modal" id="notSureModal" role="dialog" aria-modal="true" aria-labelledby="notSureTitle" hidden>
-        <div class="modal-overlay" id="notSureOverlay"></div>
-        <div class="modal-content">
-            <h3 class="modal-title" id="notSureTitle">That's completely okay</h3>
-            <p class="modal-text" id="notSureText">We suggested this because...</p>
-            <div class="modal-alternatives" id="notSureAlternatives"></div>
-            <button class="btn btn-text" id="notSureSkip">Skip this step today</button>
-            <button class="btn btn-secondary" id="notSureClose">Go back</button>
-        </div>
-    </div>
-
-    <script src="js/app.js"></script>
+    <script src="app.js"></script>
 </body>
-</html>
+</html>'''
+
+with open(f"{project_dir}/index.html", "w", encoding="utf-8") as f:
+    f.write(index_html)
+
+print("✅ index.html created")
