@@ -1,32 +1,23 @@
-
-# Create the 4 separated files for GitHub upload
-# These will be modern, beautiful, and fully functional
-
-import os
-
-project_dir = "/mnt/agents/output/tender-skincare"
-os.makedirs(project_dir, exist_ok=True)
-
-# ============================================
-# FILE 1: index.html
-# ============================================
-index_html = '''<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tender — Gentle on you</title>
+    <!-- fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<base target="_blank">
 </head>
 <body>
-    <!-- Navigation -->
+    <!-- nav -->
     <nav class="nav" id="nav">
         <div class="nav-inner">
             <a href="#" class="nav-logo">
+                <!-- hand-drawn-ish logo -->
                 <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
                     <circle cx="14" cy="14" r="13" stroke="#C67B5C" stroke-width="1.5"/>
                     <path d="M14 6C14 6 10 10 10 14C10 18 14 22 14 22C14 22 18 18 18 14C18 10 14 6 14 6Z" fill="#C67B5C" opacity="0.3"/>
@@ -40,41 +31,44 @@ index_html = '''<!DOCTYPE html>
                 <a href="#ingredients">Ingredients</a>
                 <a href="#community">Community</a>
             </div>
+            <!-- hamburger for mobile -->
             <button class="nav-toggle" id="navToggle" aria-label="Menu">
                 <span></span><span></span><span></span>
             </button>
         </div>
     </nav>
 
-    <!-- Mobile Menu -->
+    <!-- mobile menu overlay -->
     <div class="mobile-menu" id="mobileMenu">
-        <a href="#mood">Mood Check</a>
+        <a href="#mood">Mood Check 🌿</a>
         <a href="#analyze">Skin Analysis</a>
         <a href="#ingredients">Ingredients</a>
         <a href="#community">Community</a>
     </div>
 
-    <!-- Hero Section -->
+    <!-- hero -->
     <section class="hero">
         <div class="hero-bg">
+            <!-- subtle grain texture -->
             <div class="hero-grain"></div>
         </div>
         <div class="hero-content">
+            <!-- privacy badge -->
             <div class="hero-badge">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
                     <path d="M7 11V7a5 5 0 0110 0v4"/>
                 </svg>
-                We never store your photos
+                We never store your photos 🔒
             </div>
             <h1 class="hero-title">
                 <span class="hero-line">Skincare that listens</span>
                 <span class="hero-line">before it speaks</span>
             </h1>
-            <p class="hero-subtitle">We believe your skin tells a story. We're here to read it gently, not fix it.</p>
+            <p class="hero-subtitle">We believe your skin tells a story. We're here to read it gently, not fix it. 💛</p>
             <div class="hero-actions">
                 <a href="#mood" class="btn btn-primary">Start with how you feel</a>
-                <a href="#analyze" class="btn btn-secondary">Or skip ahead</a>
+                <a href="#analyze" class="btn btn-secondary">Or skip ahead →</a>
             </div>
         </div>
         <div class="hero-scroll">
@@ -83,13 +77,13 @@ index_html = '''<!DOCTYPE html>
         </div>
     </section>
 
-    <!-- Mood Check-In Section -->
+    <!-- mood check-in -->
     <section class="section section-mood" id="mood">
         <div class="container">
             <div class="section-header">
                 <span class="section-label">Before we begin</span>
                 <h2 class="section-title">How are you feeling today?</h2>
-                <p class="section-desc">Your mood shapes your skin's needs. No wrong answers.</p>
+                <p class="section-desc">Your mood shapes your skin's needs. No wrong answers. 🌱</p>
             </div>
             <div class="mood-grid">
                 <button class="mood-card" data-mood="calm">
@@ -118,11 +112,12 @@ index_html = '''<!DOCTYPE html>
                     <p>Too many steps already</p>
                 </button>
             </div>
+            <!-- result appears here after mood select -->
             <div class="mood-result" id="moodResult"></div>
         </div>
     </section>
 
-    <!-- Gentle Day Toggle -->
+    <!-- gentle day toggle -->
     <section class="section section-gentle">
         <div class="container">
             <div class="gentle-day">
@@ -135,7 +130,7 @@ index_html = '''<!DOCTYPE html>
                     </div>
                     <div class="gentle-day-text">
                         <h3>Gentle Day</h3>
-                        <p>When your skin (or you) needs rest. Just cleanse, moisturize, and SPF.</p>
+                        <p>When your skin (or you) needs rest. Just cleanse, moisturize, and SPF. That's it. ✨</p>
                     </div>
                 </div>
                 <label class="toggle">
@@ -146,15 +141,16 @@ index_html = '''<!DOCTYPE html>
         </div>
     </section>
 
-    <!-- Skin Quiz Section -->
+    <!-- skin quiz -->
     <section class="section section-quiz" id="quiz">
         <div class="container">
             <div class="section-header">
                 <span class="section-label">Tell us what you know</span>
                 <h2 class="section-title">Your skin, your story</h2>
-                <p class="section-desc">Skip anything you're unsure about. We'll work with what you give us.</p>
+                <p class="section-desc">Skip anything you're unsure about. We'll work with what you give us. 🤝</p>
             </div>
             <div class="quiz-container">
+                <!-- step 1: skin tone -->
                 <div class="quiz-step active" data-step="1">
                     <h3 class="quiz-question">Your skin tone</h3>
                     <div class="quiz-options">
@@ -183,8 +179,9 @@ index_html = '''<!DOCTYPE html>
                             <span>Type VI — Never burns, deeply pigmented</span>
                         </label>
                     </div>
-                    <button class="quiz-skip">I'm not sure — skip this</button>
+                    <button class="quiz-skip">I'm not sure — skip this 🙈</button>
                 </div>
+                <!-- step 2: age -->
                 <div class="quiz-step" data-step="2">
                     <h3 class="quiz-question">Your age range</h3>
                     <div class="quiz-options">
@@ -211,6 +208,7 @@ index_html = '''<!DOCTYPE html>
                     </div>
                     <button class="quiz-skip">Skip</button>
                 </div>
+                <!-- step 3: concerns -->
                 <div class="quiz-step" data-step="3">
                     <h3 class="quiz-question">What's showing up?</h3>
                     <p class="quiz-hint">Select all that feel true today</p>
@@ -248,8 +246,9 @@ index_html = '''<!DOCTYPE html>
                             <span>Fine lines or softness</span>
                         </label>
                     </div>
-                    <button class="quiz-skip">I have nothing right now. We'll build a 3-item starter kit from the drugstore.</button>
+                    <button class="quiz-skip">I have nothing right now. We'll build a 3-item starter kit from the drugstore. 💪</button>
                 </div>
+                <!-- step 4: budget -->
                 <div class="quiz-step" data-step="4">
                     <h3 class="quiz-question">What feels possible right now?</h3>
                     <div class="quiz-options">
@@ -271,24 +270,25 @@ index_html = '''<!DOCTYPE html>
                         </label>
                     </div>
                 </div>
+                <!-- nav buttons -->
                 <div class="quiz-nav">
-                    <button class="btn btn-nav btn-prev" id="quizPrev" disabled>Back</button>
+                    <button class="btn btn-nav btn-prev" id="quizPrev" disabled>← Back</button>
                     <div class="quiz-dots">
                         <span class="active"></span><span></span><span></span><span></span>
                     </div>
-                    <button class="btn btn-nav btn-next" id="quizNext">Next</button>
+                    <button class="btn btn-nav btn-next" id="quizNext">Next →</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Facial Analysis Section -->
+    <!-- photo analysis -->
     <section class="section section-analyze" id="analyze">
         <div class="container">
             <div class="section-header">
                 <span class="section-label">Optional</span>
                 <h2 class="section-title">Photo Skin Check</h2>
-                <p class="section-desc">Upload a selfie and we'll observe what we see. Or skip this entirely — no pressure.</p>
+                <p class="section-desc">Upload a selfie and we'll observe what we see. Or skip this entirely — no pressure. 📸</p>
             </div>
             <div class="analyze-grid">
                 <div class="upload-zone" id="uploadZone">
@@ -301,14 +301,16 @@ index_html = '''<!DOCTYPE html>
                             </svg>
                         </div>
                         <p class="upload-text">Drop your photo here, or click to browse</p>
-                        <p class="upload-hint">Processed on your device. Never uploaded to our servers.</p>
+                        <p class="upload-hint">Processed on your device. Never uploaded to our servers. 🛡️</p>
                         <input type="file" id="fileInput" accept="image/*" hidden>
                     </div>
+                    <!-- processing overlay -->
                     <div class="upload-processing" id="uploadProcessing">
                         <div class="processing-spinner"></div>
-                        <p>Looking at your skin gently...</p>
+                        <p>Looking at your skin gently... 👀</p>
                     </div>
                 </div>
+                <!-- results panel -->
                 <div class="analyze-results" id="analyzeResults">
                     <div class="result-item">
                         <div class="result-bar">
@@ -318,7 +320,7 @@ index_html = '''<!DOCTYPE html>
                             <span class="result-label">Hydration</span>
                             <span class="result-confidence">We're pretty sure</span>
                         </div>
-                        <p class="result-desc">Your skin seems a bit thirsty. A gentle moisturizer would help.</p>
+                        <p class="result-desc">Your skin seems a bit thirsty. A gentle moisturizer would help. 💧</p>
                     </div>
                     <div class="result-item">
                         <div class="result-bar">
@@ -328,7 +330,7 @@ index_html = '''<!DOCTYPE html>
                             <span class="result-label">Texture</span>
                             <span class="result-confidence">We're fairly certain</span>
                         </div>
-                        <p class="result-desc">We noticed some unevenness. Nothing to worry about — just your skin being human.</p>
+                        <p class="result-desc">We noticed some unevenness. Nothing to worry about — just your skin being human. 🤗</p>
                     </div>
                     <div class="result-item">
                         <div class="result-bar">
@@ -338,7 +340,7 @@ index_html = '''<!DOCTYPE html>
                             <span class="result-label">Redness</span>
                             <span class="result-confidence">We noticed</span>
                         </div>
-                        <p class="result-desc">A little warmth around the cheeks. Maybe the weather, maybe last night's wine.</p>
+                        <p class="result-desc">A little warmth around the cheeks. Maybe the weather, maybe last night's wine. 🍷</p>
                     </div>
                 </div>
             </div>
@@ -348,14 +350,15 @@ index_html = '''<!DOCTYPE html>
         </div>
     </section>
 
-    <!-- Ingredient Story Cards -->
+    <!-- ingredients -->
     <section class="section section-ingredients" id="ingredients">
         <div class="container">
             <div class="section-header">
                 <span class="section-label">Where they come from</span>
                 <h2 class="section-title">Ingredient stories</h2>
-                <p class="section-desc">Not just what they do — where they come from, who tends them, why they matter.</p>
+                <p class="section-desc">Not just what they do — where they come from, who tends them, why they matter. 🌾</p>
             </div>
+            <!-- horizontal scroll cards -->
             <div class="ingredients-scroll">
                 <div class="ingredient-card">
                     <div class="ingredient-visual">
@@ -363,7 +366,7 @@ index_html = '''<!DOCTYPE html>
                         <div class="ingredient-pattern"></div>
                     </div>
                     <div class="ingredient-content">
-                        <span class="ingredient-origin">Coastal California</span>
+                        <span class="ingredient-origin">Coastal California 🌊</span>
                         <h3>Oat Extract</h3>
                         <p>Grown by the Pacific breeze, harvested when the kernels are still soft. Farmers in Sonoma have been growing this variety for three generations.</p>
                         <div class="ingredient-why">
@@ -374,7 +377,7 @@ index_html = '''<!DOCTYPE html>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                             </svg>
-                            <span>Patch test recommended for first use</span>
+                            <span>Patch test recommended for first use ⚠️</span>
                         </div>
                     </div>
                 </div>
@@ -384,7 +387,7 @@ index_html = '''<!DOCTYPE html>
                         <div class="ingredient-pattern"></div>
                     </div>
                     <div class="ingredient-content">
-                        <span class="ingredient-origin">Bulgarian Rose Valley</span>
+                        <span class="ingredient-origin">Bulgarian Rose Valley 🌹</span>
                         <h3>Rosehip Oil</h3>
                         <p>Hand-picked at dawn when the dew is still on the petals. The valley between the Balkan and Sredna Gora mountains gives these roses their depth.</p>
                         <div class="ingredient-why">
@@ -395,7 +398,7 @@ index_html = '''<!DOCTYPE html>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                             </svg>
-                            <span>Patch test recommended for first use</span>
+                            <span>Patch test recommended for first use ⚠️</span>
                         </div>
                     </div>
                 </div>
@@ -405,7 +408,7 @@ index_html = '''<!DOCTYPE html>
                         <div class="ingredient-pattern"></div>
                     </div>
                     <div class="ingredient-content">
-                        <span class="ingredient-origin">Australian Outback</span>
+                        <span class="ingredient-origin">Australian Outback 🦘</span>
                         <h3>Jojoba Oil</h3>
                         <p>From shrubs that survive 40°C summers and frosty winters. The oil is structurally similar to your skin's own sebum — it understands your skin's language.</p>
                         <div class="ingredient-why">
@@ -416,7 +419,7 @@ index_html = '''<!DOCTYPE html>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                             </svg>
-                            <span>Patch test recommended for first use</span>
+                            <span>Patch test recommended for first use ⚠️</span>
                         </div>
                     </div>
                 </div>
@@ -426,7 +429,7 @@ index_html = '''<!DOCTYPE html>
                         <div class="ingredient-pattern"></div>
                     </div>
                     <div class="ingredient-content">
-                        <span class="ingredient-origin">Korean Jeju Island</span>
+                        <span class="ingredient-origin">Korean Jeju Island 🏝️</span>
                         <h3>Green Tea Extract</h3>
                         <p>Grown in volcanic soil, fed by mountain springs. The leaves are shade-grown for two weeks before harvest to concentrate their gentle strength.</p>
                         <div class="ingredient-why">
@@ -437,7 +440,7 @@ index_html = '''<!DOCTYPE html>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                             </svg>
-                            <span>Patch test recommended for first use</span>
+                            <span>Patch test recommended for first use ⚠️</span>
                         </div>
                     </div>
                 </div>
@@ -445,7 +448,7 @@ index_html = '''<!DOCTYPE html>
         </div>
     </section>
 
-    <!-- Seasonal Context -->
+    <!-- seasonal -->
     <section class="section section-seasonal">
         <div class="container">
             <div class="seasonal-card">
@@ -456,25 +459,25 @@ index_html = '''<!DOCTYPE html>
                 <div class="seasonal-content">
                     <span class="seasonal-label">Today's context</span>
                     <h3 id="seasonalTitle">Warm and slightly humid</h3>
-                    <p id="seasonalDesc">Your skin might feel a bit more open today. A lighter moisturizer and don't forget the SPF — even through clouds.</p>
+                    <p id="seasonalDesc">Your skin might feel a bit more open today. A lighter moisturizer and don't forget the SPF — even through clouds. ☁️</p>
                     <div class="seasonal-shift">
                         <span class="shift-label">Seasonal shift tracker</span>
                         <div class="shift-bar">
                             <div class="shift-progress" style="width: 65%"></div>
                         </div>
-                        <p class="shift-text">Spring → Summer transition. 65% complete. Your routine will adjust gently.</p>
+                        <p class="shift-text">Spring → Summer transition. 65% complete. Your routine will adjust gently. 🌸→☀️</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Pause Button / Skin Fasting -->
+    <!-- pause / skin fasting -->
     <section class="section section-pause">
         <div class="container">
             <div class="pause-card">
                 <div class="pause-content">
-                    <h3>Need a pause?</h3>
+                    <h3>Need a pause? 🛑</h3>
                     <p>Sometimes the kindest thing you can do for your skin is nothing at all. Water, rest, and time.</p>
                     <button class="btn btn-pause" id="pauseBtn">
                         <span class="pause-icon">⏸</span>
@@ -494,13 +497,13 @@ index_html = '''<!DOCTYPE html>
         </div>
     </section>
 
-    <!-- Community Voices -->
+    <!-- community -->
     <section class="section section-community" id="community">
         <div class="container">
             <div class="section-header">
                 <span class="section-label">Real voices</span>
                 <h2 class="section-title">Community stories</h2>
-                <p class="section-desc">No star ratings. Just people sharing what worked, what didn't, and what they learned.</p>
+                <p class="section-desc">No star ratings. Just people sharing what worked, what didn't, and what they learned. 💬</p>
             </div>
             <div class="community-grid">
                 <div class="voice-card">
@@ -549,7 +552,7 @@ index_html = '''<!DOCTYPE html>
         </div>
     </section>
 
-    <!-- Dermatologist Signal -->
+    <!-- dermatologist trust -->
     <section class="section section-trust">
         <div class="container">
             <div class="trust-badge">
@@ -560,14 +563,14 @@ index_html = '''<!DOCTYPE html>
                     </svg>
                 </div>
                 <div class="trust-text">
-                    <span class="trust-label">Reviewed by dermatologists</span>
+                    <span class="trust-label">Reviewed by dermatologists 👩‍⚕️</span>
                     <p>Our ingredient database and recommendations are reviewed quarterly by a panel of three board-certified dermatologists. Not because we need to boast — because your skin deserves care that's grounded in science, not hype.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
@@ -580,7 +583,7 @@ index_html = '''<!DOCTYPE html>
                         </svg>
                         <span>Tender</span>
                     </div>
-                    <p class="footer-tagline">Gentle on you</p>
+                    <p class="footer-tagline">Gentle on you 💛</p>
                 </div>
                 <div class="footer-links">
                     <div class="footer-col">
@@ -611,13 +614,13 @@ index_html = '''<!DOCTYPE html>
                         <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
                         <path d="M7 11V7a5 5 0 0110 0v4"/>
                     </svg>
-                    <span>We never store your photos. Ever.</span>
+                    <span>We never store your photos. Ever. 🔒</span>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- Routine Result Modal -->
+    <!-- routine result modal -->
     <div class="modal" id="routineModal">
         <div class="modal-overlay"></div>
         <div class="modal-content">
@@ -626,11 +629,7 @@ index_html = '''<!DOCTYPE html>
         </div>
     </div>
 
+    <!-- load js at the bottom so DOM is ready -->
     <script src="app.js"></script>
 </body>
-</html>'''
-
-with open(f"{project_dir}/index.html", "w", encoding="utf-8") as f:
-    f.write(index_html)
-
-print("✅ index.html created")
+</html>
