@@ -1,629 +1,1810 @@
-// ============================================
-// TENDER — SKINCARE WEB APP
-// Complete Modern JavaScript
-// ============================================
+/* ============================================
+   TENDER — SKINCARE WEB APP
+   Complete Modern CSS
+   ============================================ */
 
-document.addEventListener('DOMContentLoaded', () => {
-    initNavigation();
-    initScrollReveal();
-    initMoodCheck();
-    initGentleDay();
-    initAnalyze();
-    initProducts();
-    initPauseDay();
-    initSeasonal();
-    initModals();
-});
+:root {
+    --terracotta: #C67B5C;
+    --terracotta-light: #D4957A;
+    --terracotta-dark: #A6654A;
+    --oatmeal: #F7F3EF;
+    --oatmeal-dark: #EDE8E2;
+    --sage: #8A9A5B;
+    --sage-light: #A3B375;
+    --sage-dark: #6E7D48;
+    --warm-sand: #D4A373;
+    --warm-sand-light: #E0B896;
+    --charcoal: #3D3D3D;
+    --charcoal-light: #5A5A5A;
+    --charcoal-soft: #6B6B6B;
+    --white: #FFFFFF;
+    --cream: #FAF8F5;
 
-// ============================================
-// NAVIGATION
-// ============================================
-function initNavigation() {
-    const nav = document.getElementById('nav');
-    const navToggle = document.getElementById('navToggle');
-    const mobileMenu = document.getElementById('mobileMenu');
+    --font-serif: 'Playfair Display', Georgia, serif;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 
-    window.addEventListener('scroll', () => {
-        nav.classList.toggle('scrolled', window.pageYOffset > 50);
-    }, { passive: true });
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-xl: 32px;
+    --radius-full: 9999px;
 
-    navToggle.addEventListener('click', () => {
-        navToggle.classList.toggle('active');
-        mobileMenu.classList.toggle('active');
-        document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
-    });
+    --shadow-sm: 0 1px 2px rgba(61, 61, 61, 0.04);
+    --shadow-md: 0 4px 12px rgba(61, 61, 61, 0.08);
+    --shadow-lg: 0 8px 32px rgba(61, 61, 61, 0.12);
+    --shadow-xl: 0 16px 48px rgba(61, 61, 61, 0.16);
 
-    mobileMenu.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            navToggle.classList.remove('active');
-            mobileMenu.classList.remove('active');
-            document.body.style.overflow = '';
-        });
-    });
+    --transition-fast: 0.15s ease;
+    --transition-base: 0.3s ease;
+    --transition-slow: 0.5s ease;
 
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                window.scrollTo({
-                    top: target.getBoundingClientRect().top + window.pageYOffset - 80,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
+    --max-width: 1200px;
+    --section-padding: 120px;
 }
 
-// ============================================
-// SCROLL REVEAL
-// ============================================
-function initScrollReveal() {
-    const els = document.querySelectorAll('.section-header, .mood-card, .ingredient-card, .voice-card, .seasonal-card, .pause-card, .trust-badge, .product-card');
-    els.forEach(el => el.classList.add('reveal'));
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-    els.forEach(el => observer.observe(el));
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-// ============================================
-// MOOD + SKIN PROBLEMS ROUTING
-// ============================================
-function initMoodCheck() {
-    const moodCards = document.querySelectorAll('.mood-card');
-    const skinProblems = document.getElementById('skinProblems');
-    const problemChips = document.querySelectorAll('.problem-chip');
-    const problemsDone = document.getElementById('problemsDone');
-    const moodResult = document.getElementById('moodResult');
-
-    let selectedMood = null;
-    let selectedProblems = [];
-
-    // Mood combos with skin problems
-    const moodProblemRoutines = {
-        calm: {
-            acne: { title: 'Calm but breaking out', desc: 'Even calm skin can flare. The key is gentle consistency — no harsh treatments.', routine: ['Gentle salicylic cleanser', 'Niacinamide serum', 'Light gel moisturizer', 'SPF 30+'] },
-            dryness: { title: 'Calm and thirsty', desc: 'Your skin is peaceful but needs more moisture. Time to layer up gently.', routine: ['Cream cleanser', 'Hyaluronic acid serum', 'Rich moisturizer', 'SPF 30+'] },
-            sensitivity: { title: 'Calm but reactive', desc: 'Something is irritating your skin despite feeling okay emotionally. Strip back to basics.', routine: ['Micellar water', 'Centella serum', 'Barrier cream', 'Mineral SPF'] },
-            redness: { title: 'Calm with warmth', desc: 'A little rosiness is normal. Focus on soothing, not correcting.', routine: ['Gentle cleanser', 'Azelaic acid (low %)', 'Soothing moisturizer', 'SPF 50+'] },
-            texture: { title: 'Calm but bumpy', desc: 'Uneven texture needs patience. Gentle exfoliation, not scrubbing.', routine: ['Gentle cleanser', 'PHA exfoliant', 'Moisturizer', 'SPF 30+'] },
-            oiliness: { title: 'Calm but shiny', desc: 'Your skin is producing extra sebum. Balance, don't strip.', routine: ['Gel cleanser', 'Niacinamide serum', 'Light moisturizer', 'Matte SPF'] },
-            darkspots: { title: 'Calm with marks', desc: 'Old breakouts left their signature. Vitamin C will help fade them gently.', routine: ['Gentle cleanser', 'Vitamin C serum', 'Moisturizer', 'SPF 50+'] },
-            lines: { title: 'Calm with softness', desc: 'Fine lines are stories, not flaws. Hydration and gentle retinoids help.', routine: ['Cream cleanser', 'Retinol (introductory)', 'Rich moisturizer', 'SPF 50+'] },
-            nothing: { title: 'Everything feels balanced', desc: 'A beautiful place to be. Maintain with gentle care and consistent SPF.', routine: ['Gentle cleanser', 'Hydrating toner', 'Light moisturizer', 'SPF 30+'] }
-        },
-        stressed: {
-            acne: { title: 'Stressed and breaking out', desc: 'Stress hormones trigger breakouts. Be extra gentle — your skin is already fighting.', routine: ['Micellar water', 'Centella serum', 'Barrier cream', 'SPF 30+'] },
-            dryness: { title: 'Stressed and tight', desc: 'Stress dehydrates skin. Your barrier needs support, not stripping.', routine: ['Cream cleanser', 'Hyaluronic acid', 'Rich barrier cream', 'SPF 30+'] },
-            sensitivity: { title: 'Stressed and stinging', desc: 'Stress lowers your skin's tolerance. Everything needs to be softer today.', routine: ['Water rinse only', 'Centella serum', 'Minimal moisturizer', 'Mineral SPF'] },
-            redness: { title: 'Stressed and flushed', desc: 'Stress shows as warmth. Cool, calm, and soothe. No actives today.', routine: ['Cool water cleanse', 'Green tea serum', 'Soothing cream', 'SPF 30+'] },
-            texture: { title: 'Stressed and rough', desc: 'Stress disrupts cell turnover. Gentle exfoliation only when calm returns.', routine: ['Gentle cleanser', 'Skip exfoliants today', 'Rich moisturizer', 'SPF 30+'] },
-            oiliness: { title: 'Stressed and oily', desc: 'Stress triggers cortisol which boosts oil. Balance with niacinamide.', routine: ['Gentle gel cleanser', 'Niacinamide serum', 'Light moisturizer', 'SPF 30+'] },
-            darkspots: { title: 'Stressed with marks', desc: 'Stress can darken old marks. Focus on calming first, fading second.', routine: ['Gentle cleanser', 'Skip vitamin C today', 'Rich moisturizer', 'SPF 50+'] },
-            lines: { title: 'Stressed and tired-looking', desc: 'Stress ages skin temporarily. Sleep, water, and gentle care are the cure.', routine: ['Cream cleanser', 'Peptide serum', 'Rich eye cream', 'SPF 30+'] },
-            nothing: { title: 'Stressed but skin is okay', desc: 'Your skin is holding up. Protect it while you process the stress.', routine: ['Gentle cleanser', 'Hydrating serum', 'Moisturizer', 'SPF 30+'] }
-        },
-        tired: {
-            acne: { title: 'Tired and breaking out', desc: 'Lack of sleep weakens skin defense. Gentle care, early bedtime tonight.', routine: ['Micellar water', 'Tea tree spot treatment', 'Light moisturizer', 'SPF 30+'] },
-            dryness: { title: 'Tired and parched', desc: 'Sleep is when skin repairs. Without it, your barrier is thirsty.', routine: ['Cream cleanser', 'Hyaluronic acid', 'Sleeping mask', 'SPF 30+'] },
-            sensitivity: { title: 'Tired and reactive', desc: 'Exhausted skin has no defenses. Minimal routine, maximum rest.', routine: ['Water rinse', 'Minimal moisturizer', 'Mineral SPF', 'Sleep early'] },
-            redness: { title: 'Tired and puffy', desc: 'Poor circulation from lack of sleep. Cool compresses and gentle massage.', routine: ['Cool water', 'Caffeine eye serum', 'Light moisturizer', 'SPF 30+'] },
-            texture: { title: 'Tired and dull', desc: 'Cell turnover slows when tired. Vitamin C will bring back the glow.', routine: ['Gentle cleanser', 'Vitamin C serum', 'Moisturizer', 'SPF 30+'] },
-            oiliness: { title: 'Tired and greasy', desc: 'Sleep deprivation increases oil. Cleanse well, but don't overdo it.', routine: ['Gel cleanser', 'Niacinamide', 'Light moisturizer', 'Matte SPF'] },
-            darkspots: { title: 'Tired with dull marks', desc: 'Tired skin heals slower. Brightening helps, but sleep is the real fix.', routine: ['Gentle cleanser', 'Vitamin C serum', 'Moisturizer', 'SPF 50+'] },
-            lines: { title: 'Tired and showing it', desc: 'Sleep deprivation shows as lines. Hydration plumps, rest restores.', routine: ['Cream cleanser', 'Hyaluronic acid', 'Rich moisturizer', 'SPF 30+'] },
-            nothing: { title: 'Tired but skin survived', desc: 'Your skin is resilient. A simple routine and early night will fix everything.', routine: ['Gentle cleanser', 'Moisturizer', 'SPF 30+', 'Sleep early'] }
-        },
-        hopeful: {
-            acne: { title: 'Hopeful about clearing acne', desc: 'Perfect time to start a gentle salicylic routine. Consistency is key.', routine: ['Salicylic cleanser', 'Niacinamide serum', 'Light moisturizer', 'SPF 30+'] },
-            dryness: { title: 'Hopeful about hydration', desc: 'Layering hydration is your new practice. Start with hyaluronic acid.', routine: ['Cream cleanser', 'Hyaluronic essence', 'Rich moisturizer', 'SPF 30+'] },
-            sensitivity: { title: 'Hopeful about calming skin', desc: 'Centella and oat are your new best friends. One ingredient at a time.', routine: ['Gentle cleanser', 'Centella serum', 'Barrier cream', 'Mineral SPF'] },
-            redness: { title: 'Hopeful about even tone', desc: 'Azelaic acid is gentle but effective. Start low, go slow.', routine: ['Gentle cleanser', 'Azelaic acid (5%)', 'Moisturizer', 'SPF 50+'] },
-            texture: { title: 'Hopeful about smooth skin', desc: 'PHAs are the gentle exfoliant you need. No irritation, just glow.', routine: ['Gentle cleanser', 'PHA toner', 'Moisturizer', 'SPF 30+'] },
-            oiliness: { title: 'Hopeful about balance', desc: 'Niacinamide will change your skin. Give it 4-6 weeks.', routine: ['Gel cleanser', 'Niacinamide 10%', 'Light moisturizer', 'Matte SPF'] },
-            darkspots: { title: 'Hopeful about fading marks', desc: 'Vitamin C + patience = fading. Protect with SPF every single day.', routine: ['Gentle cleanser', 'Vitamin C 15%', 'Moisturizer', 'SPF 50+'] },
-            lines: { title: 'Hopeful about graceful aging', desc: 'Introductory retinol is perfect. Start once a week, build slowly.', routine: ['Cream cleanser', 'Retinol 0.3%', 'Rich moisturizer', 'SPF 50+'] },
-            nothing: { title: 'Hopeful and ready to begin', desc: 'A 3-step starter kit is all you need. Build from here.', routine: ['Gentle cleanser', 'Moisturizer', 'SPF 30+', 'Patience'] }
-        },
-        overwhelmed: {
-            acne: { title: 'Overwhelmed by breakouts', desc: 'Too many products probably caused this. Strip back to 3 items only.', routine: ['Gentle cleanser', 'Spot treatment', 'Light moisturizer', 'SPF 30+'] },
-            dryness: { title: 'Overwhelmed by dryness', desc: 'Over-exfoliation is likely the cause. Stop everything, moisturize only.', routine: ['Water rinse', 'Rich moisturizer', 'SPF 30+', 'No actives for 2 weeks'] },
-            sensitivity: { title: 'Overwhelmed and reactive', desc: 'Your skin is crying for simplicity. Three products. That's it.', routine: ['Micellar water', 'Minimal moisturizer', 'Mineral SPF', 'No actives'] },
-            redness: { title: 'Overwhelmed and red', desc: 'Too many actives = inflammation. Stop everything except cleanse + moisturize + SPF.', routine: ['Gentle cleanser', 'Soothing moisturizer', 'SPF 30+', 'Rest'] },
-            texture: { title: 'Overwhelmed by bumps', desc: 'Over-exfoliation causes texture too. Let your barrier heal first.', routine: ['Gentle cleanser', 'Moisturizer', 'SPF 30+', 'Wait 2 weeks'] },
-            oiliness: { title: 'Overwhelmed by shine', desc: 'Stripping oil makes more oil. Gentle cleanse, light moisture, patience.', routine: ['Gentle gel cleanser', 'Light moisturizer', 'SPF 30+', 'No stripping'] },
-            darkspots: { title: 'Overwhelmed by marks', desc: 'Fading takes months, not days. One brightening product, consistent SPF.', routine: ['Gentle cleanser', 'Vitamin C serum', 'Moisturizer', 'SPF 50+'] },
-            lines: { title: 'Overwhelmed by aging fears', desc: 'No product reverses time. Hydration and SPF are enough. Really.', routine: ['Cream cleanser', 'Rich moisturizer', 'SPF 50+', 'Self-kindness'] },
-            nothing: { title: 'Overwhelmed by too many steps', desc: 'Three products is a complete routine. Everything else is optional.', routine: ['Cleanser', 'Moisturizer', 'SPF 30+', 'That's it'] }
-        }
-    };
-
-    moodCards.forEach(card => {
-        card.addEventListener('click', () => {
-            moodCards.forEach(c => c.classList.remove('active'));
-            card.classList.add('active');
-            selectedMood = card.dataset.mood;
-            selectedProblems = [];
-            problemChips.forEach(c => c.classList.remove('active'));
-
-            skinProblems.classList.add('active');
-            moodResult.classList.remove('active');
-
-            setTimeout(() => {
-                skinProblems.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }, 100);
-        });
-    });
-
-    problemChips.forEach(chip => {
-        chip.addEventListener('click', () => {
-            const problem = chip.dataset.problem;
-
-            if (problem === 'nothing') {
-                problemChips.forEach(c => c.classList.remove('active'));
-                chip.classList.add('active');
-                selectedProblems = ['nothing'];
-            } else {
-                const nothingChip = document.querySelector('.problem-chip[data-problem="nothing"]');
-                if (nothingChip) nothingChip.classList.remove('active');
-
-                if (selectedProblems.includes('nothing')) {
-                    selectedProblems = [];
-                }
-
-                if (selectedProblems.includes(problem)) {
-                    selectedProblems = selectedProblems.filter(p => p !== problem);
-                    chip.classList.remove('active');
-                } else {
-                    selectedProblems.push(problem);
-                    chip.classList.add('active');
-                }
-            }
-        });
-    });
-
-    problemsDone.addEventListener('click', () => {
-        if (!selectedMood) {
-            showToast('Select how you're feeling first');
-            return;
-        }
-
-        const problem = selectedProblems[0] || 'nothing';
-        const data = moodProblemRoutines[selectedMood]?.[problem];
-
-        if (data) {
-            moodResult.innerHTML = `
-                <h4>${data.title}</h4>
-                <p>${data.desc}</p>
-                <div class="routine-preview">
-                    ${data.routine.map(item => `<span class="routine-item">${item}</span>`).join('')}
-                </div>
-                <button class="btn btn-primary" style="margin-top: 24px;" onclick="showProductsForMood('${selectedMood}', '${problem}')">See matching products</button>
-            `;
-            moodResult.classList.add('active');
-            moodResult.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-    });
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
 }
 
-// ============================================
-// GENTLE DAY
-// ============================================
-function initGentleDay() {
-    const toggle = document.getElementById('gentleToggle');
-    toggle.addEventListener('change', () => {
-        showToast(toggle.checked ? 'Gentle Day on. Cleanse + moisturize + SPF only.' : 'Gentle Day off. Full routine restored.');
-    });
+body {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    line-height: 1.7;
+    color: var(--charcoal);
+    background: var(--oatmeal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
 }
 
-// ============================================
-// PHOTO ANALYSIS
-// ============================================
-function initAnalyze() {
-    const uploadZone = document.getElementById('uploadZone');
-    const fileInput = document.getElementById('fileInput');
-    const processing = document.getElementById('uploadProcessing');
-    const results = document.getElementById('analyzeResults');
-    const skipBtn = document.getElementById('skipAnalyze');
-    const timelineSection = document.getElementById('timelineSection');
-    const scanProductsBtn = document.getElementById('scanProductsBtn');
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
 
-    uploadZone.addEventListener('click', () => fileInput.click());
+a {
+    color: inherit;
+    text-decoration: none;
+}
 
-    fileInput.addEventListener('change', (e) => {
-        if (e.target.files.length > 0) processImage(e.target.files[0]);
-    });
+button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
 
-    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-        uploadZone.addEventListener(eventName, (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-        });
-    });
+.container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 24px;
+}
 
-    ['dragenter', 'dragover'].forEach(eventName => {
-        uploadZone.addEventListener(eventName, () => uploadZone.classList.add('dragover'));
-    });
-
-    ['dragleave', 'drop'].forEach(eventName => {
-        uploadZone.addEventListener(eventName, () => uploadZone.classList.remove('dragover'));
-    });
-
-    uploadZone.addEventListener('drop', (e) => {
-        const files = e.dataTransfer.files;
-        if (files.length > 0) processImage(files[0]);
-    });
-
-    function processImage(file) {
-        processing.classList.add('active');
-
-        const steps = processing.querySelectorAll('.step');
-        let currentStep = 0;
-
-        const stepInterval = setInterval(() => {
-            steps.forEach((s, i) => s.classList.toggle('active', i === currentStep));
-            currentStep++;
-            if (currentStep >= steps.length) clearInterval(stepInterval);
-        }, 600);
-
-        setTimeout(() => {
-            processing.classList.remove('active');
-            results.classList.add('active');
-            timelineSection.classList.add('active');
-
-            results.querySelectorAll('.result-fill').forEach((bar, i) => {
-                const target = bar.dataset.target;
-                bar.style.width = '0%';
-                setTimeout(() => bar.style.width = target + '%', i * 200);
-            });
-
-            // Save to timeline
-            saveToTimeline(file);
-
-            showToast('Analysis complete. Remember — observation, not diagnosis.');
-        }, 3000);
+@media (min-width: 768px) {
+    .container {
+        padding: 0 48px;
     }
+}
 
-    function saveToTimeline(file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const scans = JSON.parse(localStorage.getItem('tenderScans') || '[]');
-            scans.push({
-                date: new Date().toLocaleDateString(),
-                image: e.target.result
-            });
-            localStorage.setItem('tenderScans', JSON.stringify(scans.slice(-5)));
-            renderTimeline();
-        };
-        reader.readAsDataURL(file);
+/* ============================================
+   NAVIGATION
+   ============================================ */
+.nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 16px 0;
+    transition: var(--transition-base);
+}
+
+.nav.scrolled {
+    background: rgba(247, 243, 239, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: var(--shadow-sm);
+}
+
+.nav-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@media (min-width: 768px) {
+    .nav-inner {
+        padding: 0 48px;
     }
+}
 
-    function renderTimeline() {
-        const timeline = document.getElementById('timeline');
-        const scans = JSON.parse(localStorage.getItem('tenderScans') || '[]');
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    transition: var(--transition-fast);
+}
 
-        timeline.innerHTML = scans.map(scan => `
-            <div class="timeline-item">
-                <img src="${scan.image}" alt="Skin scan">
-                <span>${scan.date}</span>
-            </div>
-        `).join('');
+.nav-logo:hover {
+    color: var(--terracotta);
+}
+
+.nav-links {
+    display: none;
+    align-items: center;
+    gap: 32px;
+}
+
+@media (min-width: 768px) {
+    .nav-links {
+        display: flex;
     }
-
-    renderTimeline();
-
-    skipBtn.addEventListener('click', () => {
-        showToast('No problem. Tell us what you see in the mood check above.');
-        document.getElementById('mood').scrollIntoView({ behavior: 'smooth' });
-    });
-
-    scanProductsBtn.addEventListener('click', () => {
-        document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
-        showToast('Showing products for analyzed skin type');
-    });
 }
 
-// ============================================
-// PRODUCTS
-// ============================================
-function initProducts() {
-    const productsGrid = document.getElementById('productsGrid');
-    const filterBtns = document.querySelectorAll('.filter-btn');
+.nav-links a {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--charcoal-soft);
+    transition: var(--transition-fast);
+    position: relative;
+}
 
-    const products = [
-        {
-            id: 1, brand: 'CeraVe', name: 'Hydrating Cleanser', price: '$15',
-            category: 'cleanser', image: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&h=300&fit=crop',
-            why: 'Gentle, non-stripping cleanse with ceramides that protect your barrier.',
-            ingredients: ['Ceramides', 'Hyaluronic Acid', 'Glycerin'],
-            link: 'https://www.cerave.com'
-        },
-        {
-            id: 2, brand: 'The Ordinary', name: 'Niacinamide 10% + Zinc', price: '$6',
-            category: 'serum', image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400&h=300&fit=crop',
-            why: 'Balances oil, reduces redness, and strengthens skin barrier over time.',
-            ingredients: ['Niacinamide', 'Zinc PCA', 'Glycerin'],
-            link: 'https://theordinary.com'
-        },
-        {
-            id: 3, brand: 'La Roche-Posay', name: 'Toleriane Double Repair', price: '$20',
-            category: 'moisturizer', image: 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=400&h=300&fit=crop',
-            why: 'Lightweight but deeply hydrating. Restores barrier without heaviness.',
-            ingredients: ['Ceramides', 'Niacinamide', 'Glycerin'],
-            link: 'https://www.laroche-posay.com'
-        },
-        {
-            id: 4, brand: 'Supergoop', name: 'Unseen Sunscreen SPF 40', price: '$38',
-            category: 'spf', image: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&h=300&fit=crop',
-            why: 'Invisible, weightless protection. The sunscreen that feels like nothing.',
-            ingredients: ['Avobenzone', 'Homosalate', 'Red Algae'],
-            link: 'https://supergoop.com'
-        },
-        {
-            id: 5, brand: 'Paula's Choice', name: 'Skin Perfecting 2% BHA', price: '$35',
-            category: 'serum', image: 'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=400&h=300&fit=crop',
-            why: 'Gentle salicylic acid that clears pores without irritation. Start slow.',
-            ingredients: ['Salicylic Acid', 'Green Tea', 'Methylpropanediol'],
-            link: 'https://www.paulaschoice.com'
-        },
-        {
-            id: 6, brand: 'Vanicream', name: 'Daily Facial Moisturizer', price: '$9',
-            category: 'moisturizer', image: 'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=400&h=300&fit=crop',
-            why: 'The most gentle moisturizer on the market. Zero irritants, pure comfort.',
-            ingredients: ['Ceramides', 'Squalane', 'Hyaluronic Acid'],
-            link: 'https://www.vanicream.com'
-        },
-        {
-            id: 7, brand: 'Cetaphil', name: 'Gentle Skin Cleanser', price: '$10',
-            category: 'cleanser', image: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&h=300&fit=crop',
-            why: 'Dermatologist-recommended for 70 years. As gentle as water, but cleansing.',
-            ingredients: ['Water', 'Cetyl Alcohol', 'Propylene Glycol'],
-            link: 'https://www.cetaphil.com'
-        },
-        {
-            id: 8, brand: 'EltaMD', name: 'UV Clear SPF 46', price: '$39',
-            category: 'spf', image: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&h=300&fit=crop',
-            why: 'The dermatologist favorite. Niacinamide + zinc for acne-prone skin.',
-            ingredients: ['Zinc Oxide', 'Niacinamide', 'Hyaluronic Acid'],
-            link: 'https://eltamd.com'
-        },
-        {
-            id: 9, brand: 'The Inkey List', name: 'Hyaluronic Acid Serum', price: '$8',
-            category: 'serum', image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400&h=300&fit=crop',
-            why: 'Pure hydration in a bottle. Plumps skin instantly, holds moisture all day.',
-            ingredients: ['Hyaluronic Acid', 'Matrixyl 3000', 'Glycerin'],
-            link: 'https://www.theinkeylist.com'
-        }
-    ];
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 1.5px;
+    background: var(--terracotta);
+    transition: var(--transition-base);
+}
 
-    function renderProducts(filter = 'all') {
-        const filtered = filter === 'all' ? products : products.filter(p => p.category === filter);
+.nav-links a:hover {
+    color: var(--charcoal);
+}
 
-        productsGrid.innerHTML = filtered.map(product => `
-            <div class="product-card" data-id="${product.id}">
-                <img class="product-image" src="${product.image}" alt="${product.name}" loading="lazy">
-                <div class="product-content">
-                    <span class="product-brand">${product.brand}</span>
-                    <h3 class="product-name">${product.name}</h3>
-                    <div class="product-price">${product.price}</div>
-                    <p class="product-why">${product.why}</p>
-                    <div class="product-ingredients">
-                        ${product.ingredients.map(i => `<span class="product-ingredient">${i}</span>`).join('')}
-                    </div>
-                    <div class="product-actions">
-                        <button class="btn btn-primary" onclick="showProductDetail(${product.id})">View</button>
-                        <a href="${product.link}" target="_blank" class="btn btn-secondary">Shop</a>
-                    </div>
-                </div>
-            </div>
-        `).join('');
+.nav-links a:hover::after {
+    width: 100%;
+}
 
-        // Re-observe new cards
-        const newCards = productsGrid.querySelectorAll('.product-card');
-        newCards.forEach(card => {
-            card.classList.add('reveal');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1 });
-            observer.observe(card);
-        });
+.nav-toggle {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 8px;
+    z-index: 1001;
+}
+
+@media (min-width: 768px) {
+    .nav-toggle {
+        display: none;
     }
-
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            filterBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            renderProducts(btn.dataset.filter);
-        });
-    });
-
-    renderProducts();
 }
 
-function showProductDetail(id) {
-    const products = [
-        { id: 1, brand: 'CeraVe', name: 'Hydrating Cleanser', price: '$15', image: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&h=300&fit=crop', why: 'Gentle, non-stripping cleanse with ceramides that protect your barrier.', ingredients: ['Ceramides', 'Hyaluronic Acid', 'Glycerin'], link: 'https://www.cerave.com' },
-        { id: 2, brand: 'The Ordinary', name: 'Niacinamide 10% + Zinc', price: '$6', image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400&h=300&fit=crop', why: 'Balances oil, reduces redness, and strengthens skin barrier over time.', ingredients: ['Niacinamide', 'Zinc PCA', 'Glycerin'], link: 'https://theordinary.com' },
-        { id: 3, brand: 'La Roche-Posay', name: 'Toleriane Double Repair', price: '$20', image: 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=400&h=300&fit=crop', why: 'Lightweight but deeply hydrating. Restores barrier without heaviness.', ingredients: ['Ceramides', 'Niacinamide', 'Glycerin'], link: 'https://www.laroche-posay.com' },
-        { id: 4, brand: 'Supergoop', name: 'Unseen Sunscreen SPF 40', price: '$38', image: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&h=300&fit=crop', why: 'Invisible, weightless protection. The sunscreen that feels like nothing.', ingredients: ['Avobenzone', 'Homosalate', 'Red Algae'], link: 'https://supergoop.com' },
-        { id: 5, brand: 'Paula's Choice', name: 'Skin Perfecting 2% BHA', price: '$35', image: 'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=400&h=300&fit=crop', why: 'Gentle salicylic acid that clears pores without irritation. Start slow.', ingredients: ['Salicylic Acid', 'Green Tea', 'Methylpropanediol'], link: 'https://www.paulaschoice.com' },
-        { id: 6, brand: 'Vanicream', name: 'Daily Facial Moisturizer', price: '$9', image: 'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=400&h=300&fit=crop', why: 'The most gentle moisturizer on the market. Zero irritants, pure comfort.', ingredients: ['Ceramides', 'Squalane', 'Hyaluronic Acid'], link: 'https://www.vanicream.com' },
-        { id: 7, brand: 'Cetaphil', name: 'Gentle Skin Cleanser', price: '$10', image: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&h=300&fit=crop', why: 'Dermatologist-recommended for 70 years. As gentle as water, but cleansing.', ingredients: ['Water', 'Cetyl Alcohol', 'Propylene Glycol'], link: 'https://www.cetaphil.com' },
-        { id: 8, brand: 'EltaMD', name: 'UV Clear SPF 46', price: '$39', image: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&h=300&fit=crop', why: 'The dermatologist favorite. Niacinamide + zinc for acne-prone skin.', ingredients: ['Zinc Oxide', 'Niacinamide', 'Hyaluronic Acid'], link: 'https://eltamd.com' },
-        { id: 9, brand: 'The Inkey List', name: 'Hyaluronic Acid Serum', price: '$8', image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400&h=300&fit=crop', why: 'Pure hydration in a bottle. Plumps skin instantly, holds moisture all day.', ingredients: ['Hyaluronic Acid', 'Matrixyl 3000', 'Glycerin'], link: 'https://www.theinkeylist.com' }
-    ];
-
-    const product = products.find(p => p.id === id);
-    if (!product) return;
-
-    const modalBody = document.getElementById('productModalBody');
-    modalBody.innerHTML = `
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
-            <img src="${product.image}" alt="${product.name}" style="width: 100%; border-radius: var(--radius-md); object-fit: cover;">
-            <div>
-                <span class="section-label" style="margin-bottom: 8px;">${product.brand}</span>
-                <h2 style="font-family: var(--font-serif); font-size: 1.75rem; margin-bottom: 8px; color: var(--charcoal);">${product.name}</h2>
-                <div style="font-size: 1.25rem; font-weight: 600; color: var(--terracotta); margin-bottom: 16px;">${product.price}</div>
-                <p style="color: var(--charcoal-soft); line-height: 1.7; margin-bottom: 20px;">${product.why}</p>
-                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px;">
-                    ${product.ingredients.map(i => `<span style="padding: 4px 10px; background: var(--oatmeal); border-radius: var(--radius-full); font-size: 0.6875rem; color: var(--charcoal-soft);">${i}</span>`).join('')}
-                </div>
-                <a href="${product.link}" target="_blank" class="btn btn-primary" style="width: 100%;">Shop Now</a>
-            </div>
-        </div>
-    `;
-
-    document.getElementById('productModal').classList.add('active');
-    document.body.style.overflow = 'hidden';
+.nav-toggle span {
+    display: block;
+    width: 22px;
+    height: 1.5px;
+    background: var(--charcoal);
+    transition: var(--transition-base);
+    transform-origin: center;
 }
 
-function showProductsForMood(mood, problem) {
-    document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
-    showToast(`Showing products for ${mood} + ${problem} skin`);
+.nav-toggle.active span:nth-child(1) {
+    transform: translateY(6.5px) rotate(45deg);
 }
 
-// ============================================
-// PAUSE
-// ============================================
-function initPauseDay() {
-    const pauseBtn = document.getElementById('pauseBtn');
-    const pauseDays = document.getElementById('pauseDays');
-    let isPaused = false;
-
-    pauseBtn.addEventListener('click', () => {
-        isPaused = !isPaused;
-
-        if (isPaused) {
-            pauseBtn.innerHTML = '<span class="pause-icon">▶</span><span class="pause-text">Resume your routine</span>';
-            pauseBtn.style.background = 'var(--sage)';
-            pauseDays.querySelectorAll('.pause-day').forEach(day => {
-                day.style.background = 'var(--sage)';
-                day.style.color = 'var(--white)';
-            });
-            showToast('Skin fasting day started. Water, rest, and patience.');
-        } else {
-            pauseBtn.innerHTML = '<span class="pause-icon">⏸</span><span class="pause-text">Start a skin fasting day</span>';
-            pauseBtn.style.background = 'var(--charcoal)';
-            pauseDays.querySelectorAll('.pause-day').forEach((day, i) => {
-                const active = [0, 2, 5].includes(i);
-                day.style.background = active ? 'var(--sage)' : 'var(--oatmeal)';
-                day.style.color = active ? 'var(--white)' : 'var(--charcoal-soft)';
-            });
-            showToast("Welcome back. Your routine is here when you're ready.");
-        }
-    });
+.nav-toggle.active span:nth-child(2) {
+    opacity: 0;
 }
 
-// ============================================
-// SEASONAL
-// ============================================
-function initSeasonal() {
-    const month = new Date().getMonth();
-    const data = {
-        0: { icon: '🌸', temp: '18°C', title: 'Spring awakening', desc: 'Pollen season might be stirring things up. A gentle cleanser and barrier-supporting moisturizer will help your skin adjust.' },
-        1: { icon: '🌸', temp: '20°C', title: 'Spring awakening', desc: 'Pollen season might be stirring things up. A gentle cleanser and barrier-supporting moisturizer will help your skin adjust.' },
-        2: { icon: '🌸', temp: '22°C', title: 'Spring awakening', desc: 'Pollen season might be stirring things up. A gentle cleanser and barrier-supporting moisturizer will help your skin adjust.' },
-        3: { icon: '☀️', temp: '28°C', title: 'Summer warmth', desc: 'Humidity and heat mean your skin might produce more oil. Lightweight layers and diligent SPF are your friends.' },
-        4: { icon: '☀️', temp: '30°C', title: 'Summer warmth', desc: 'Humidity and heat mean your skin might produce more oil. Lightweight layers and diligent SPF are your friends.' },
-        5: { icon: '☀️', temp: '32°C', title: 'Summer warmth', desc: 'Humidity and heat mean your skin might produce more oil. Lightweight layers and diligent SPF are your friends.' },
-        6: { icon: '🍂', temp: '19°C', title: 'Autumn transition', desc: 'The air is getting drier. Time to layer up your moisture. Consider adding a hydrating serum before your moisturizer.' },
-        7: { icon: '🍂', temp: '16°C', title: 'Autumn transition', desc: 'The air is getting drier. Time to layer up your moisture. Consider adding a hydrating serum before your moisturizer.' },
-        8: { icon: '🍂', temp: '14°C', title: 'Autumn transition', desc: 'The air is getting drier. Time to layer up your moisture. Consider adding a hydrating serum before your moisturizer.' },
-        9: { icon: '❄️', temp: '8°C', title: 'Winter stillness', desc: 'Cold air and indoor heating are tough on skin. Rich creams, facial oils, and humidifiers will help your barrier stay strong.' },
-        10: { icon: '❄️', temp: '5°C', title: 'Winter stillness', desc: 'Cold air and indoor heating are tough on skin. Rich creams, facial oils, and humidifiers will help your barrier stay strong.' },
-        11: { icon: '❄️', temp: '6°C', title: 'Winter stillness', desc: 'Cold air and indoor heating are tough on skin. Rich creams, facial oils, and humidifiers will help your barrier stay strong.' }
-    }[month] || data[0];
-
-    document.getElementById('seasonalIcon').textContent = data.icon;
-    document.getElementById('seasonalTemp').textContent = data.temp;
-    document.getElementById('seasonalTitle').textContent = data.title;
-    document.getElementById('seasonalDesc').textContent = data.desc;
+.nav-toggle.active span:nth-child(3) {
+    transform: translateY(-6.5px) rotate(-45deg);
 }
 
-// ============================================
-// MODALS
-// ============================================
-function initModals() {
-    document.querySelectorAll('.modal').forEach(modal => {
-        const closeBtn = modal.querySelector('.modal-close');
-        const overlay = modal.querySelector('.modal-overlay');
-
-        const close = () => {
-            modal.classList.remove('active');
-            document.body.style.overflow = '';
-        };
-
-        if (closeBtn) closeBtn.addEventListener('click', close);
-        if (overlay) overlay.addEventListener('click', close);
-    });
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            document.querySelectorAll('.modal.active').forEach(m => {
-                m.classList.remove('active');
-                document.body.style.overflow = '';
-            });
-        }
-    });
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--oatmeal);
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition-base);
 }
 
-// ============================================
-// TOAST
-// ============================================
-function showToast(message) {
-    const existing = document.querySelector('.toast');
-    if (existing) existing.remove();
+.mobile-menu.active {
+    opacity: 1;
+    visibility: visible;
+}
 
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.innerHTML = `<span>${message}</span>`;
-    toast.style.cssText = `
-        position: fixed;
-        bottom: 24px;
-        left: 50%;
-        transform: translateX(-50%) translateY(20px);
-        background: var(--charcoal);
-        color: var(--white);
-        padding: 14px 28px;
-        border-radius: 9999px;
-        font-size: 0.875rem;
-        font-weight: 500;
-        box-shadow: 0 8px 32px rgba(61,61,61,0.16);
-        z-index: 3000;
-        opacity: 0;
-        transition: all 0.4s ease;
-        max-width: 90vw;
+.mobile-menu a {
+    font-family: var(--font-serif);
+    font-size: 1.75rem;
+    color: var(--charcoal);
+    transition: var(--transition-fast);
+}
+
+.mobile-menu a:hover {
+    color: var(--terracotta);
+}
+
+/* ============================================
+   HERO
+   ============================================ */
+.hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 24px 80px;
+    overflow: hidden;
+}
+
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    background: var(--oatmeal);
+}
+
+.hero-grain {
+    position: absolute;
+    inset: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+    text-align: center;
+    animation: fadeInUp 1s ease forwards;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: var(--white);
+    border-radius: var(--radius-full);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--sage-dark);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 40px;
+    animation: fadeInUp 1s ease 0.2s both;
+}
+
+.hero-badge svg {
+    flex-shrink: 0;
+}
+
+.hero-title {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: 1.15;
+    color: var(--charcoal);
+    margin-bottom: 24px;
+}
+
+.hero-line {
+    display: block;
+}
+
+.hero-line:nth-child(2) {
+    font-style: italic;
+    color: var(--terracotta);
+}
+
+.hero-subtitle {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: var(--charcoal-soft);
+    max-width: 480px;
+    margin: 0 auto 40px;
+    line-height: 1.7;
+}
+
+.hero-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    animation: fadeInUp 1s ease 0.4s both;
+}
+
+@media (min-width: 480px) {
+    .hero-actions {
+        flex-direction: row;
+        justify-content: center;
+    }
+}
+
+.hero-scroll {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    color: var(--charcoal-soft);
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    animation: fadeInUp 1s ease 0.6s both;
+}
+
+.scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--charcoal-soft), transparent);
+    animation: scrollPulse 2s ease infinite;
+}
+
+@keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
+    50% { opacity: 1; transform: scaleY(1); }
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 28px;
+    border-radius: var(--radius-full);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    transition: var(--transition-base);
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: var(--terracotta);
+    color: var(--white);
+    box-shadow: 0 4px 16px rgba(198, 123, 92, 0.3);
+}
+
+.btn-primary:hover {
+    background: var(--terracotta-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(198, 123, 92, 0.4);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--charcoal);
+    border: 1.5px solid var(--oatmeal-dark);
+}
+
+.btn-secondary:hover {
+    border-color: var(--terracotta);
+    color: var(--terracotta);
+    transform: translateY(-2px);
+}
+
+.btn-nav {
+    padding: 10px 20px;
+    font-size: 0.875rem;
+    background: var(--white);
+    color: var(--charcoal);
+    border: 1.5px solid var(--oatmeal-dark);
+}
+
+.btn-nav:hover:not(:disabled) {
+    border-color: var(--terracotta);
+    color: var(--terracotta);
+}
+
+.btn-nav:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.btn-text {
+    padding: 8px 0;
+    color: var(--charcoal-soft);
+    font-size: 0.875rem;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: var(--oatmeal-dark);
+}
+
+.btn-text:hover {
+    color: var(--terracotta);
+    text-decoration-color: var(--terracotta);
+}
+
+.btn-pause {
+    background: var(--charcoal);
+    color: var(--white);
+    padding: 12px 24px;
+    gap: 10px;
+}
+
+.btn-pause:hover {
+    background: var(--charcoal-light);
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   SECTIONS
+   ============================================ */
+.section {
+    padding: var(--section-padding) 0;
+    position: relative;
+}
+
+.section-header {
+    max-width: 640px;
+    margin-bottom: 64px;
+}
+
+.section-label {
+    display: block;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 16px;
+}
+
+.section-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--charcoal);
+    margin-bottom: 16px;
+}
+
+.section-desc {
+    font-size: 1.0625rem;
+    color: var(--charcoal-soft);
+    line-height: 1.7;
+}
+
+/* ============================================
+   MOOD SECTION
+   ============================================ */
+.section-mood {
+    background: var(--cream);
+}
+
+.mood-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+@media (min-width: 768px) {
+    .mood-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+.mood-card {
+    background: var(--white);
+    border: 2px solid transparent;
+    border-radius: var(--radius-md);
+    padding: 32px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition-base);
+    box-shadow: var(--shadow-sm);
+}
+
+.mood-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--terracotta-light);
+}
+
+.mood-card.active {
+    border-color: var(--terracotta);
+    background: var(--white);
+    box-shadow: var(--shadow-md);
+}
+
+.mood-icon {
+    font-size: 2.5rem;
+    margin-bottom: 16px;
+    line-height: 1;
+}
+
+.mood-card h3 {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: var(--charcoal);
+}
+
+.mood-card p {
+    font-size: 0.8125rem;
+    color: var(--charcoal-soft);
+    line-height: 1.5;
+}
+
+/* Skin Problems */
+.skin-problems {
+    margin-top: 48px;
+    padding: 40px;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    display: none;
+    animation: fadeInUp 0.5s ease;
+}
+
+.skin-problems.active {
+    display: block;
+}
+
+.problems-question {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--charcoal);
+    margin-bottom: 8px;
+}
+
+.problems-hint {
+    font-size: 0.9375rem;
+    color: var(--charcoal-soft);
+    margin-bottom: 24px;
+}
+
+.problems-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 32px;
+}
+
+.problem-chip {
+    padding: 10px 20px;
+    background: var(--oatmeal);
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    cursor: pointer;
+    transition: var(--transition-fast);
+    border: 2px solid transparent;
+}
+
+.problem-chip:hover {
+    background: var(--oatmeal-dark);
+}
+
+.problem-chip.active {
+    background: var(--terracotta);
+    color: var(--white);
+    border-color: var(--terracotta-dark);
+}
+
+.problems-done {
+    width: 100%;
+}
+
+.mood-result {
+    margin-top: 40px;
+    padding: 40px;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    display: none;
+    animation: fadeInUp 0.5s ease;
+}
+
+.mood-result.active {
+    display: block;
+}
+
+.mood-result h4 {
+    font-family: var(--font-serif);
+    font-size: 1.75rem;
+    margin-bottom: 16px;
+    color: var(--charcoal);
+}
+
+.mood-result > p {
+    color: var(--charcoal-soft);
+    line-height: 1.7;
+    margin-bottom: 24px;
+}
+
+.mood-result .routine-preview {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.mood-result .routine-item {
+    padding: 10px 18px;
+    background: var(--oatmeal);
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    color: var(--charcoal);
+}
+
+/* ============================================
+   GENTLE DAY
+   ============================================ */
+.section-gentle {
+    padding: 0 0 var(--section-padding);
+    background: var(--cream);
+}
+
+.gentle-day {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 32px 40px;
+    box-shadow: var(--shadow-md);
+    flex-wrap: wrap;
+}
+
+.gentle-day-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex: 1;
+}
+
+.gentle-day-icon {
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-full);
+    background: var(--oatmeal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gentle-day-text h3 {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 4px;
+    color: var(--charcoal);
+}
+
+.gentle-day-text p {
+    font-size: 0.9375rem;
+    color: var(--charcoal-soft);
+    line-height: 1.5;
+}
+
+.toggle {
+    position: relative;
+    width: 56px;
+    height: 32px;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    inset: 0;
+    background: var(--oatmeal-dark);
+    border-radius: var(--radius-full);
+    transition: var(--transition-base);
+}
+
+.toggle-slider::before {
+    content: '';
+    position: absolute;
+    height: 24px;
+    width: 24px;
+    left: 4px;
+    bottom: 4px;
+    background: var(--white);
+    border-radius: 50%;
+    transition: var(--transition-base);
+    box-shadow: var(--shadow-sm);
+}
+
+.toggle input:checked + .toggle-slider {
+    background: var(--sage);
+}
+
+.toggle input:checked + .toggle-slider::before {
+    transform: translateX(24px);
+}
+
+/* ============================================
+   ANALYZE SECTION
+   ============================================ */
+.section-analyze {
+    background: var(--cream);
+}
+
+.analyze-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    margin-bottom: 32px;
+}
+
+@media (min-width: 768px) {
+    .analyze-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.upload-zone {
+    position: relative;
+    background: var(--white);
+    border: 2px dashed var(--oatmeal-dark);
+    border-radius: var(--radius-lg);
+    padding: 48px 32px;
+    text-align: center;
+    transition: var(--transition-base);
+    cursor: pointer;
+    min-height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.upload-zone:hover {
+    border-color: var(--terracotta);
+    background: rgba(198, 123, 92, 0.02);
+}
+
+.upload-zone.dragover {
+    border-color: var(--terracotta);
+    background: rgba(198, 123, 92, 0.05);
+    transform: scale(1.01);
+}
+
+.upload-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.upload-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: var(--radius-full);
+    background: var(--oatmeal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+}
+
+.upload-text {
+    font-family: var(--font-serif);
+    font-size: 1.125rem;
+    color: var(--charcoal);
+    font-weight: 500;
+}
+
+.upload-hint {
+    font-size: 0.8125rem;
+    color: var(--charcoal-soft);
+    max-width: 280px;
+}
+
+.upload-processing {
+    position: absolute;
+    inset: 0;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    padding: 40px;
+}
+
+.upload-processing.active {
+    display: flex;
+}
+
+.processing-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 280px;
+}
+
+.processing-steps .step {
+    font-size: 0.875rem;
+    color: var(--charcoal-soft);
+    padding: 8px 16px;
+    background: var(--oatmeal);
+    border-radius: var(--radius-sm);
+    transition: var(--transition-base);
+    opacity: 0.5;
+}
+
+.processing-steps .step.active {
+    opacity: 1;
+    background: rgba(198, 123, 92, 0.1);
+    color: var(--terracotta);
+    font-weight: 500;
+}
+
+.processing-spinner {
+    width: 48px;
+    height: 48px;
+    border: 3px solid var(--oatmeal-dark);
+    border-top-color: var(--terracotta);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Results */
+.analyze-results {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    box-shadow: var(--shadow-md);
+    display: none;
+}
+
+.analyze-results.active {
+    display: block;
+    animation: fadeInUp 0.5s ease;
+}
+
+.result-item {
+    margin-bottom: 28px;
+}
+
+.result-item:last-child {
+    margin-bottom: 0;
+}
+
+.result-bar {
+    height: 6px;
+    background: var(--oatmeal);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.result-fill {
+    height: 100%;
+    background: var(--terracotta);
+    border-radius: var(--radius-full);
+    transition: width 1.5s ease;
+}
+
+.result-text {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.result-label {
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--charcoal);
+}
+
+.result-confidence {
+    font-size: 0.8125rem;
+    color: var(--charcoal-soft);
+    font-style: italic;
+}
+
+.result-desc {
+    font-size: 0.875rem;
+    color: var(--charcoal-soft);
+    line-height: 1.6;
+}
+
+/* Timeline */
+.timeline-section {
+    margin-top: 40px;
+    display: none;
+}
+
+.timeline-section.active {
+    display: block;
+}
+
+.timeline-title {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 20px;
+    color: var(--charcoal);
+}
+
+.timeline {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+}
+
+.timeline-item {
+    flex-shrink: 0;
+    width: 120px;
+    text-align: center;
+}
+
+.timeline-item img {
+    width: 100px;
+    height: 100px;
+    border-radius: var(--radius-md);
+    object-fit: cover;
+    margin: 0 auto 8px;
+    border: 2px solid var(--oatmeal-dark);
+}
+
+.timeline-item span {
+    font-size: 0.75rem;
+    color: var(--charcoal-soft);
+}
+
+.analyze-skip {
+    text-align: center;
+}
+
+/* ============================================
+   PRODUCTS SECTION
+   ============================================ */
+.section-products {
+    background: var(--oatmeal);
+}
+
+.products-filter {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    background: var(--white);
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--charcoal-soft);
+    cursor: pointer;
+    transition: var(--transition-fast);
+    border: 1.5px solid transparent;
+}
+
+.filter-btn:hover {
+    border-color: var(--terracotta-light);
+    color: var(--charcoal);
+}
+
+.filter-btn.active {
+    background: var(--terracotta);
+    color: var(--white);
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+@media (min-width: 640px) {
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .products-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.product-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-base);
+}
+
+.product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-xl);
+}
+
+.product-image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    background: var(--oatmeal);
+}
+
+.product-content {
+    padding: 24px;
+}
+
+.product-brand {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 4px;
+}
+
+.product-name {
+    font-family: var(--font-serif);
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    margin-bottom: 8px;
+}
+
+.product-price {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--charcoal);
+    margin-bottom: 12px;
+}
+
+.product-why {
+    font-size: 0.8125rem;
+    color: var(--charcoal-soft);
+    line-height: 1.5;
+    margin-bottom: 16px;
+}
+
+.product-ingredients {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.product-ingredient {
+    padding: 4px 10px;
+    background: var(--oatmeal);
+    border-radius: var(--radius-full);
+    font-size: 0.6875rem;
+    color: var(--charcoal-soft);
+}
+
+.product-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.product-actions .btn {
+    flex: 1;
+    padding: 10px 16px;
+    font-size: 0.8125rem;
+}
+
+/* ============================================
+   INGREDIENTS
+   ============================================ */
+.section-ingredients {
+    background: var(--cream);
+    overflow: hidden;
+}
+
+.ingredients-scroll {
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+    padding-bottom: 16px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--oatmeal-dark) transparent;
+}
+
+.ingredients-scroll::-webkit-scrollbar {
+    height: 6px;
+}
+
+.ingredients-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.ingredients-scroll::-webkit-scrollbar-thumb {
+    background: var(--oatmeal-dark);
+    border-radius: var(--radius-full);
+}
+
+.ingredient-card {
+    flex: 0 0 340px;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    scroll-snap-align: start;
+    transition: var(--transition-base);
+}
+
+.ingredient-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-xl);
+}
+
+.ingredient-visual {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+}
+
+.ingredient-color {
+    position: absolute;
+    inset: 0;
+}
+
+.ingredient-pattern {
+    position: absolute;
+    inset: 0;
+    opacity: 0.06;
+    background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='2' cy='2' r='1' fill='%23000'/%3E%3C/svg%3E");
+}
+
+.ingredient-content {
+    padding: 28px;
+}
+
+.ingredient-origin {
+    display: block;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 8px;
+}
+
+.ingredient-content h3 {
+    font-family: var(--font-serif);
+    font-size: 1.375rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+    color: var(--charcoal);
+}
+
+.ingredient-content > p {
+    font-size: 0.875rem;
+    color: var(--charcoal-soft);
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.ingredient-why {
+    padding: 16px;
+    background: var(--oatmeal);
+    border-radius: var(--radius-sm);
+    margin-bottom: 16px;
+}
+
+.why-label {
+    display: block;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--sage-dark);
+    margin-bottom: 6px;
+}
+
+.ingredient-why p {
+    font-size: 0.875rem;
+    color: var(--charcoal);
+    line-height: 1.6;
+}
+
+.patch-test {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    color: var(--charcoal-soft);
+}
+
+.patch-test svg {
+    flex-shrink: 0;
+    color: var(--sage);
+}
+
+/* ============================================
+   SEASONAL
+   ============================================ */
+.section-seasonal {
+    background: var(--cream);
+    padding: 0 0 var(--section-padding);
+}
+
+.seasonal-card {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+}
+
+@media (min-width: 640px) {
+    .seasonal-card {
+        grid-template-columns: 200px 1fr;
+    }
+}
+
+.seasonal-visual {
+    background: var(--oatmeal);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    gap: 8px;
+}
+
+.seasonal-icon {
+    font-size: 3rem;
+    line-height: 1;
+}
+
+.seasonal-temp {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    color: var(--charcoal);
+}
+
+.seasonal-content {
+    padding: 40px;
+}
+
+.seasonal-label {
+    display: block;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 8px;
+}
+
+.seasonal-content h3 {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+    color: var(--charcoal);
+}
+
+.seasonal-content > p {
+    font-size: 0.9375rem;
+    color: var(--charcoal-soft);
+    line-height: 1.7;
+    margin-bottom: 28px;
+}
+
+.seasonal-shift {
+    padding-top: 24px;
+    border-top: 1px solid var(--oatmeal-dark);
+}
+
+.shift-label {
+    display: block;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--sage-dark);
+    margin-bottom: 12px;
+}
+
+.shift-bar {
+    height: 4px;
+    background: var(--oatmeal-dark);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.shift-progress {
+    height: 100%;
+    background: var(--sage);
+    border-radius: var(--radius-full);
+    transition: width 1s ease;
+}
+
+.shift-text {
+    font-size: 0.8125rem;
+    color: var(--charcoal-soft);
+}
+
+/* ============================================
+   PAUSE
+   ============================================ */
+.section-pause {
+    background: var(--oatmeal);
+    padding: 0 0 var(--section-padding);
+}
+
+.pause-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 48px;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+@media (min-width: 768px) {
+    .pause-card {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+.pause-content h3 {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--charcoal);
+}
+
+.pause-content > p {
+    font-size: 0.9375rem;
+    color: var(--charcoal-soft);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    max-width: 400px;
+}
+
+.pause-days {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.pause-day {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--charcoal-soft);
+    background: var(--oatmeal);
+    transition: var(--transition-base);
+}
+
+.pause-day.active {
+    background: var(--sage);
+    color: var(--white);
+}
+
+.pause-day:hover {
+    transform: scale(1.1);
+}
+
+/* ============================================
+   COMMUNITY
+   ============================================ */
+.section-community {
+    background: var(--cream);
+}
+
+.community-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+@media (min-width: 768px) {
+    .community-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.voice-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-base);
+}
+
+.voice-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.voice-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.voice-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-serif);
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--white);
+}
+
+.voice-meta {
+    display: flex;
+    flex-direction: column;
+}
+
+.voice-name {
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--charcoal);
+}
+
+.voice-skin {
+    font-size: 0.75rem;
+    color: var(--charcoal-soft);
+}
+
+.voice-card blockquote {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--charcoal);
+    font-style: italic;
+    margin-bottom: 20px;
+    padding-left: 16px;
+    border-left: 2px solid var(--oatmeal-dark);
+}
+
+.voice-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.tag {
+    padding: 6px 12px;
+    background: var(--oatmeal);
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--charcoal-soft);
+}
+
+/* ============================================
+   TRUST
+   ============================================ */
+.section-trust {
+    background: var(--oatmeal);
+    padding: 0 0 var(--section-padding);
+}
+
+.trust-badge {
+    display: flex;
+    gap: 24px;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    box-shadow: var(--shadow-md);
+    align-items: flex-start;
+}
+
+@media (max-width: 640px) {
+    .trust-badge {
+        flex-direction: column;
+        align-items: center;
         text-align: center;
-        line-height: 1.5;
-    `;
-
-    document.body.appendChild(toast);
-    requestAnimationFrame(() => {
-        toast.style.opacity = '1';
-        toast.style.transform = 'translateX(-50%) translateY(0)';
-    });
-
-    setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.transform = 'translateX(-50%) translateY(20px)';
-        setTimeout(() => toast.remove(), 400);
-    }, 4000);
+    }
 }
 
-// Reduced motion
-if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.documentElement.style.scrollBehavior = 'auto';
+.trust-icon {
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-full);
+    background: rgba(138, 154, 91, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.trust-label {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    margin-bottom: 8px;
+}
+
+.trust-text p {
+    font-size: 0.9375rem;
+    color: var(--charcoal-soft);
+    line-height: 1.7;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer {
+    background: var(--charcoal);
+    color: var(--oatmeal);
+    padding: 80px 0 40px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+}
+
+@media (min-width: 768px) {
+    .footer-grid {
+        grid-template-columns: 1fr 2fr;
+    }
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--white);
+    margin-bottom: 8px;
+}
+
+.footer-tagline {
+    font-size: 0.9375rem;
+    color: var(--warm-sand);
+}
+
+.footer-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 32px;
+}
+
+.footer-col h4 {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--warm-sand);
+    margin-bottom: 16px;
+}
+
+.footer-col a {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--oatmeal-dark);
+    margin-bottom: 10px;
+    transition: var(--transition-fast);
+}
+
+.footer-col a:hover {
+    color: var(--white);
+}
+
+.footer-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(247, 243, 239, 0.1);
+}
+
+@media (min-width: 640px) {
+    .footer-bottom {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+.footer-bottom p {
+    font-size: 0.8125rem;
+    color: rgba(247, 243, 239, 0.5);
+}
+
+.footer-privacy {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8125rem;
+    color: var(--sage-light);
+}
+
+/* ============================================
+   MODAL
+   ============================================ */
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(61, 61, 61, 0.4);
+    backdrop-filter: blur(8px);
+}
+
+.modal-content {
+    position: relative;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    max-width: 560px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-xl);
+    animation: modalIn 0.4s ease;
+}
+
+.modal-content.modal-large {
+    max-width: 720px;
+}
+
+@keyframes modalIn {
+    from { opacity: 0; transform: scale(0.95) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--oatmeal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    color: var(--charcoal);
+    z-index: 1;
+    transition: var(--transition-fast);
+}
+
+.modal-close:hover {
+    background: var(--oatmeal-dark);
+}
+
+.modal-body {
+    padding: 48px;
+}
+
+@media (max-width: 640px) {
+    .modal-body {
+        padding: 32px 24px;
+    }
+}
+
+/* ============================================
+   ANIMATIONS & UTILITIES
+   ============================================ */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+::selection {
+    background: rgba(198, 123, 92, 0.2);
+    color: var(--charcoal);
+}
+
+:focus-visible {
+    outline: 2px solid var(--terracotta);
+    outline-offset: 2px;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+.ingredients-scroll {
+    -ms-overflow-style: none;
+    scrollbar-width: thin;
+}
+
+@media print {
+    .nav, .hero-scroll, .mobile-menu, .modal {
+        display: none !important;
+    }
+    .section {
+        padding: 40px 0;
+    }
 }
