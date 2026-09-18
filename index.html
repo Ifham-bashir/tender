@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tender — Skincare that listens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<header class="site-nav">
+  <a href="#" class="logo">tender<span>.</span></a>
+  <nav class="nav-links">
+    <a href="#checkin">Check-in</a>
+    <a href="#scan">Scan</a>
+    <a href="#products">Products</a>
+    <a href="#journal">Journal</a>
+  </nav>
+  <div class="nav-right">
+    <label class="gentle-toggle" title="Gentle Day — simplify your routine">
+      <input type="checkbox" id="gentleToggle">
+      <span class="toggle-track"><span class="toggle-thumb"></span></span>
+      <span class="toggle-label">Gentle day</span>
+    </label>
+    <button id="navToggle" class="nav-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+<div id="mobileMenu" class="mobile-menu">
+  <a href="#checkin">Check-in</a>
+  <a href="#scan">Scan</a>
+  <a href="#products">Products</a>
+  <a href="#journal">Journal</a>
+</div>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Skincare that listens</p>
+    <h1>Your skin already<br>knows what it needs.</h1>
+    <p class="hero-sub">Tender starts with how you feel, not what's in your cabinet. A two-minute check-in, a gentle routine, and nothing your skin didn't ask for.</p>
+    <div class="hero-actions">
+      <a href="#checkin" class="btn btn-primary">Start today's check-in</a>
+      <a href="#products" class="btn btn-ghost">Browse products</a>
+    </div>
+  </div>
+  <div class="hero-blob" aria-hidden="true"></div>
+</section>
+
+<!-- ================= MOOD CHECK-IN ================= -->
+<section id="checkin" class="section">
+  <div class="section-head">
+    <p class="eyebrow">Step 1 · Check-in</p>
+    <h2>How is your skin feeling today?</h2>
+    <p class="section-sub">No wrong answers. Your mood shapes your routine.</p>
+  </div>
+  <div class="mood-grid">
+    <button class="mood-card" data-mood="calm"><span class="mood-emoji">🌿</span><span class="mood-name">Calm</span><span class="mood-desc">Steady, settled, unbothered</span></button>
+    <button class="mood-card" data-mood="stressed"><span class="mood-emoji">🌧️</span><span class="mood-name">Stressed</span><span class="mood-desc">Tense days, tight shoulders</span></button>
+    <button class="mood-card" data-mood="tired"><span class="mood-emoji">🌙</span><span class="mood-name">Tired</span><span class="mood-desc">Low battery, dull look</span></button>
+    <button class="mood-card" data-mood="hopeful"><span class="mood-emoji">🌤️</span><span class="mood-name">Hopeful</span><span class="mood-desc">Ready to try something new</span></button>
+    <button class="mood-card" data-mood="overwhelmed"><span class="mood-emoji">🍃</span><span class="mood-name">Overwhelmed</span><span class="mood-desc">Too many steps, too much noise</span></button>
+  </div>
+  <div id="moodResult" class="mood-result" aria-live="polite"></div>
+
+  <!-- SKIN PROBLEMS -->
+  <div id="skinProblems" class="skin-problems">
+    <div class="section-head">
+      <p class="eyebrow">Step 2 · Observations</p>
+      <h3>Tell us what your skin is showing today</h3>
+    </div>
+    <div class="chip-row">
+      <button class="problem-chip" data-problem="acne">Breakouts</button>
+      <button class="problem-chip" data-problem="dryness">Dryness</button>
+      <button class="problem-chip" data-problem="sensitivity">Sensitivity</button>
+      <button class="problem-chip" data-problem="redness">Redness</button>
+      <button class="problem-chip" data-problem="texture">Uneven texture</button>
+      <button class="problem-chip" data-problem="oiliness">Oiliness</button>
+      <button class="problem-chip" data-problem="darkspots">Dark spots</button>
+      <button class="problem-chip" data-problem="lines">Fine lines</button>
+      <button class="problem-chip" data-problem="nothing">Nothing particular</button>
+    </div>
+    <button id="problemsDone" class="btn btn-primary">Build my routine</button>
+  </div>
+</section>
+
+<!-- ================= PHOTO SCAN ================= -->
+<section id="scan" class="section section-alt">
+  <div class="section-head">
+    <p class="eyebrow">Step 3 · Optional scan</p>
+    <h2>Snap a bare-skin selfie</h2>
+    <p class="section-sub">Everything happens in your browser. Nothing is uploaded or stored anywhere.</p>
+  </div>
+  <div id="uploadZone" class="upload-zone">
+    <input type="file" id="fileInput" accept="image/*" hidden>
+    <div class="upload-inner">
+      <span class="upload-icon">📷</span>
+      <p class="upload-title">Drop a photo here or tap to browse</p>
+      <p class="upload-hint">Natural light, no filter, makeup-free works best</p>
+    </div>
+  </div>
+  <div id="uploadProcessing" class="upload-processing">
+    <p class="processing-title">Looking closely…</p>
+    <div class="step"><span class="step-dot"></span>Reading overall tone</div>
+    <div class="step"><span class="step-dot"></span>Checking hydration signals</div>
+    <div class="step"><span class="step-dot"></span>Scanning for congestion</div>
+    <div class="step"><span class="step-dot"></span>Putting it together</div>
+  </div>
+  <div id="analyzeResults" class="analyze-results">
+    <h3>Today's snapshot</h3>
+    <div class="result-row"><span>Hydration</span><div class="result-bar"><div class="result-fill" data-target="74"></div></div><span class="result-val">74%</span></div>
+    <div class="result-row"><span>Even tone</span><div class="result-bar"><div class="result-fill" data-target="62"></div></div><span class="result-val">62%</span></div>
+    <div class="result-row"><span>Calmness</span><div class="result-bar"><div class="result-fill" data-target="81"></div></div><span class="result-val">81%</span></div>
+    <p class="result-note">A gentle starting point — trends over weeks matter more than any single day.</p>
+    <div class="result-actions">
+      <button id="scanProductsBtn" class="btn btn-primary">See products for my skin</button>
+      <button id="skipAnalyze" class="btn btn-ghost">Skip for now</button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PRODUCTS ================= -->
+<section id="products" class="section">
+  <div class="section-head">
+    <p class="eyebrow">The shelf</p>
+    <h2>Small lineup, gentle formulas</h2>
+  </div>
+  <div class="filter-row">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="cleanser">Cleansers</button>
+    <button class="filter-btn" data-filter="serum">Serums</button>
+    <button class="filter-btn" data-filter="moisturizer">Moisturizers</button>
+    <button class="filter-btn" data-filter="spf">SPF</button>
+  </div>
+  <div id="productsGrid" class="products-grid"></div>
+</section>
+
+<!-- ================= INGREDIENT GLOSSARY ================= -->
+<section class="section section-alt">
+  <div class="section-head">
+    <p class="eyebrow">Know your labels</p>
+    <h2>Hero ingredients, in plain words</h2>
+  </div>
+  <div class="ingredient-grid">
+    <div class="ingredient-card"><span class="ing-icon">💧</span><h4>Hyaluronic acid</h4><p>A moisture magnet. Holds water in the skin without any heaviness.</p></div>
+    <div class="ingredient-card"><span class="ing-icon">🛡️</span><h4>Ceramides</h4><p>Your skin barrier's own building blocks. Repairs, protects, calms.</p></div>
+    <div class="ingredient-card"><span class="ing-icon">🌼</span><h4>Centella asiatica</h4><p>The classic soother. Quiets redness and stressed-out skin.</p></div>
+    <div class="ingredient-card"><span class="ing-icon">✨</span><h4>Niacinamide</h4><p>Balances oil, softens the look of pores, brightens gently.</p></div>
+  </div>
+</section>
+
+<!-- ================= SEASONAL + PAUSE ================= -->
+<section class="section">
+  <div class="two-col">
+    <div class="seasonal-card">
+      <p class="eyebrow">Seasonal shift</p>
+      <h3>Autumn is drying air season</h3>
+      <p>Cold air outside, heating inside. Your barrier works harder this time of year — consider swapping gel for cream, and never skip SPF just because it's grey.</p>
+    </div>
+    <div class="pause-card">
+      <p class="eyebrow">Permission slip</p>
+      <h3>Some days, the kindest routine is none at all.</h3>
+      <p>Skin fasting — just water, moisturizer, and SPF — gives your barrier room to reset.</p>
+      <button id="pauseBtn" class="btn btn-dark"><span class="pause-text">Start a skin fasting day</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= JOURNAL / TIMELINE ================= -->
+<section id="journal" class="section section-alt">
+  <div class="section-head">
+    <p class="eyebrow">Your journal</p>
+    <h2>Watch your skin change, slowly</h2>
+    <p class="section-sub">Every scan you take gets added here — visible only to you, in this browser.</p>
+  </div>
+  <div id="timelineSection" class="timeline-section">
+    <div id="timeline" class="timeline"></div>
+  </div>
+  <div class="voice-cards">
+    <div class="voice-card"><p>"I stopped chasing ten steps. My skin calmed down within two weeks."</p><span>— Priya, combination skin</span></div>
+    <div class="voice-card"><p>"The gentle day toggle is the only skincare feature that ever felt like it got me."</p><span>— Marcus, sensitive skin</span></div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <p class="logo-footer">tender<span>.</span></p>
+  <p>Gentle skincare, honest routines, zero judgment. This demo runs fully in your browser.</p>
+</footer>
+
+<!-- ================= MODALS ================= -->
+<div id="routineModal" class="modal" role="dialog" aria-modal="true">
+  <div class="modal-overlay"></div>
+  <div class="modal-card">
+    <button id="routineModalClose" class="modal-close" aria-label="Close">×</button>
+    <div id="routineModalBody" class="modal-body"></div>
+  </div>
+</div>
+
+<div id="productModal" class="modal" role="dialog" aria-modal="true">
+  <div class="modal-overlay"></div>
+  <div class="modal-card">
+    <button id="productModalClose" class="modal-close" aria-label="Close">×</button>
+    <div id="productModalBody" class="modal-body"></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
+
